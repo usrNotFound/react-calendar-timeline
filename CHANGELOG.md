@@ -7,6 +7,8 @@ and this project adheres (more or less) to [Semantic Versioning](http://semver.o
 
 ## Unreleased
 
+* Add unit argument to onZoom and onTimeChange callbacks
+
 * Add `className` prop to Timeline component to override `react-calendar-timeline` class #682
 
 ## 0.26.7
