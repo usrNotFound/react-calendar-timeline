@@ -829,7 +829,7 @@ export default class ReactCalendarTimeline extends Component {
           itemDrag={this.dragItem}
           itemDrop={this.dropItem}
           onItemDoubleClick={this.doubleClickItem}
-          onItemContextMenu={this.contextMenuClickItem}
+          onItemContextMenu={this.props.onItemContextMenu ? this.contextMenuClickItem : undefined}
           itemResizing={this.resizingItem}
           itemResized={this.resizedItem}
           itemRenderer={this.props.itemRenderer}

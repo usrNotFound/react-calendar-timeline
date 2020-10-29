@@ -1269,7 +1269,7 @@ $ yarn start
 
 Check http://0.0.0.0:8888/ in your browser and have fun!
 
-Please run `npm run lint` before you send a pull request. `npm run jest` runs the tests.
+Please run `npm run lint` before you send a pull request. `npm run test` runs the jest tests.
 
 <!--
 
