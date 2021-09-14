@@ -1,12 +1,12 @@
 {
-  "name": "react-calendar-timeline",
-  "version": "0.27.0",
+  "name": "@gecko-conception/react-calendar-timeline",
+  "version": "0.28.0",
   "description": "react calendar timeline",
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run build:lib",
     "build:demo": "echo '!!! Building Demo' && cross-env NODE_ENV=production webpack --progress",
-    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && node-sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && rm lib/lib/Timeline.js.bak",
+    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && node-sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && tsc && rm lib/lib/Timeline.js.bak",
     "lint": "eslint --ext .js --ext .jsx ./src",
     "lint:fix": "prettier-eslint --parser babylon --write \"src/**/*.js\"",
     "prepublish": "npm run build:lib",
@@ -18,13 +18,17 @@
     "lib",
     "src"
   ],
-  "homepage": "https://github.com/namespace-ee/react-calendar-timeline",
+  "homepage": "https://github.com/ricard33/react-calendar-timeline",
   "repository": {
     "type": "git",
-    "url": "https://github.com/namespace-ee/react-calendar-timeline.git"
+    "url": "https://github.com/ricard33/react-calendar-timeline.git"
   },
-  "author": "Marius Andra <marius.andra@gmail.com>",
+  "author": "Cedric RICARD <ricard33@gmail.com>",
   "contributors": [
+    {
+      "name": "Marius Andra",
+      "email": "marius.andra@gmail.com"
+    },
     {
       "name": "Stanisław Chmiela",
       "email": "sjchmiela@gmail.com"
@@ -55,6 +59,10 @@
     {
       "name": "Kevin Mann",
       "url": "https://github.com/kevinmanncito"
+    },
+    {
+      "name": "Thomas Wilson",
+      "url": "https://github.com/kiltedDev"
     }
   ],
   "license": "MIT",
@@ -112,6 +120,8 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.5.2",
     "@babel/preset-env": "^7.5.2",
     "@babel/preset-react": "^7.0.0",
+    "@babel/types": "^7.15.6",
+    "@types/node": "^16.9.1",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^24.8.0",
     "babel-loader": "^8.0.6",
@@ -135,7 +145,7 @@
     "jest-watch-typeahead": "^0.3.1",
     "jsdom": "^11.5.1",
     "moment": "^2.11.1",
-    "node-sass": "^4.12.0",
+    "node-sass": "^6.0.1",
     "prettier": "^1.10.2",
     "prettier-eslint-cli": "^4.7.0",
     "prop-types": "^15.6.2",
@@ -148,6 +158,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.3",
     "style-loader": "~0.13.0",
+    "typescript": "^4.4.3",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"

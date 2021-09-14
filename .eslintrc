@@ -30,5 +30,10 @@
       "jsx": true
     },
     "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "17.0"
+    }
   }
 }
