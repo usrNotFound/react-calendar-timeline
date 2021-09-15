@@ -1,6 +1,6 @@
 {
   "name": "@gecko-conception/react-calendar-timeline",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "description": "react calendar timeline",
   "main": "lib/index.js",
   "scripts": {
@@ -10,6 +10,7 @@
     "lint": "eslint --ext .js --ext .jsx ./src",
     "lint:fix": "prettier-eslint --parser babylon --write \"src/**/*.js\"",
     "prepublish": "npm run build:lib",
+    "push": "npm publish --access public --scope @gecko-conception .",
     "start": "webpack-dev-server --hot --host 0.0.0.0 --display-modules",
     "test": "jest",
     "test:watch": "jest --watch"
