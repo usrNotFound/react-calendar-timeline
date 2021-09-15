@@ -1,6 +1,5 @@
 import React from 'react'
-import { render, cleanup, prettyDOM } from 'react-testing-library'
-import Timeline from 'lib/Timeline'
+import { render, cleanup } from 'react-testing-library'
 import DateHeader from 'lib/headers/DateHeader'
 import SidebarHeader from 'lib/headers/SidebarHeader'
 import TimelineHeaders from 'lib/headers/TimelineHeaders'
@@ -10,7 +9,7 @@ import { getCustomHeadersInTimeline } from '../../test-utility/headerRenderers'
 import { parsePxToNumbers } from '../../test-utility/index'
 
 import 'jest-dom/extend-expect'
-import moment from 'moment'
+import { getTime, intervalToDuration, parse, format as _format } from 'date-fns'
 
 describe('CustomHeader Component Test', () => {
   afterEach(cleanup)
@@ -21,17 +20,17 @@ describe('CustomHeader Component Test', () => {
         unit: 'month',
         timelineState: {
           timelineUnit: 'month',
-          canvasTimeStart: moment.utc('1/6/2018', 'DD/MM/YYYY').valueOf(),
-          canvasTimeEnd: moment.utc('1/6/2020', 'DD/MM/YYYY').valueOf(),
-          visibleTimeStart: moment.utc('1/1/2019', 'DD/MM/YYYY').valueOf(),
-          visibleTimeEnd: moment.utc('1/1/2020', 'DD/MM/YYYY').valueOf()
+          canvasTimeStart: getTime(new Date(2018, 6, 1)),
+          canvasTimeEnd: getTime(new Date(2020, 6, 1)),
+          visibleTimeStart: getTime(new Date(2019, 1, 1)),
+          visibleTimeEnd: getTime(new Date(2020, 1, 1))
         }
       })
     )
     const intervals = getAllByTestId('customHeaderInterval')
-    const start = moment(intervals[0].textContent, 'DD/MM/YYYY')
-    const end = moment(intervals[1].textContent, 'DD/MM/YYYY')
-    expect(end.diff(start, 'M')).toBe(1)
+    const start = parse(intervals[0].textContent, 'dd/MM/yyyy', new Date())
+    const end = parse(intervals[1].textContent, 'dd/MM/yyyy', new Date())
+    expect(intervalToDuration({ start, end })).toStrictEqual({days: 0, hours: 0, minutes: 0, seconds: 0, months: 1, years: 0})
   })
   it('Given CustomHeader When pass a style props with (width, position) Then it should not override the default values', () => {
     const { getByTestId } = render(
@@ -101,17 +100,17 @@ describe('CustomHeader Component Test', () => {
         timelineState: {
           //default unit we are testing
           timelineUnit: 'month',
-          canvasTimeStart: moment.utc('1/6/2018', 'DD/MM/YYYY').valueOf(),
-          canvasTimeEnd: moment.utc('1/6/2020', 'DD/MM/YYYY').valueOf(),
-          visibleTimeStart: moment.utc('1/1/2019', 'DD/MM/YYYY').valueOf(),
-          visibleTimeEnd: moment.utc('1/1/2020', 'DD/MM/YYYY').valueOf()
+          canvasTimeStart: getTime(new Date(2018, 6, 1)),
+          canvasTimeEnd: getTime(new Date(2020, 6, 1)),
+          visibleTimeStart: getTime(new Date(2019, 1, 1)),
+          visibleTimeEnd: getTime(new Date(2020, 1, 1))
         }
       })
     )
     const intervals = getAllByTestId('customHeaderInterval')
-    const start = moment(intervals[0].textContent, 'DD/MM/YYYY')
-    const end = moment(intervals[1].textContent, 'DD/MM/YYYY')
-    expect(end.diff(start, 'M')).toBe(1)
+    const start = parse(intervals[0].textContent, 'dd/MM/yyyy', new Date())
+    const end = parse(intervals[1].textContent, 'dd/MM/yyyy', new Date())
+    expect(intervalToDuration({ start, end })).toStrictEqual({days: 0, hours: 0, minutes: 0, seconds: 0, months: 1, years: 0})
   })
 
   it("Given CustomHeader When rendered Then intervals don't overlap in position", () => {
@@ -183,8 +182,8 @@ describe('CustomHeader Component Test', () => {
     expect(intervals).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          startTime: expect.any(moment),
-          endTime: expect.any(moment),
+          startTime: expect.any(Date),
+          endTime: expect.any(Date),
           labelWidth: expect.any(Number),
           left: expect.any(Number)
         })
@@ -322,7 +321,7 @@ describe('CustomHeader Component Test', () => {
                         })}
                       >
                         <div className="sticky">
-                          {interval.startTime.format('YYYY')}
+                          {_format(interval.startTime, 'yyyy')}
                         </div>
                       </div>
                     )

@@ -22,16 +22,16 @@ export const defaultTimeSteps = {
 
 export const defaultHeaderFormats = {
   year: {
-    long: 'YYYY',
-    mediumLong: 'YYYY',
-    medium: 'YYYY',
-    short: 'YY'
+    long: 'yyyy',
+    mediumLong: 'yyyy',
+    medium: 'yyyy',
+    short: 'yy'
   },
   month: {
-    long: 'MMMM YYYY',
+    long: 'MMMM yyyy',
     mediumLong: 'MMMM',
     medium: 'MMMM',
-    short: 'MM/YY'
+    short: 'MM/yy'
   },
   week: {
     long: 'w',
@@ -40,14 +40,14 @@ export const defaultHeaderFormats = {
     short: 'w'
   },
   day: {
-    long: 'dddd, LL',
-    mediumLong: 'dddd, LL',
-    medium: 'dd D',
-    short: 'D'
+    long: 'EEEE, MMMM d, yyyy',
+    mediumLong: 'EEEEEE, MMMM d, yyyy',
+    medium: 'EEEEEE d',
+    short: 'd'
   },
   hour: {
-    long: 'dddd, LL, HH:00',
-    mediumLong: 'L, HH:00',
+    long: 'EEEEEE, MMMM d, yyyy, HH:00',
+    mediumLong: 'd/M/yyyy, HH:00',
     medium: 'HH:00',
     short: 'HH'
   },
@@ -61,32 +61,32 @@ export const defaultHeaderFormats = {
 
 //TODO: delete this
 export const defaultHeaderLabelFormats = {
-  yearShort: 'YY',
-  yearLong: 'YYYY',
-  monthShort: 'MM/YY',
-  monthMedium: 'MM/YYYY',
-  monthMediumLong: 'MMM YYYY',
-  monthLong: 'MMMM YYYY',
+  yearShort: 'yy',
+  yearLong: 'yyyy',
+  monthShort: 'MM/yy',
+  monthMedium: 'MM/yyyy',
+  monthMediumLong: 'MMM yyyy',
+  monthLong: 'MMMM yyyy',
   dayShort: 'L',
-  dayLong: 'dddd, LL',
+  dayLong: 'EEEE, LL',
   hourShort: 'HH',
   hourMedium: 'HH:00',
   hourMediumLong: 'L, HH:00',
-  hourLong: 'dddd, LL, HH:00',
+  hourLong: 'EEEE, LL, HH:00',
   time: 'LLL'
 }
 
 //TODO: delete this
 export const defaultSubHeaderLabelFormats = {
-  yearShort: 'YY',
-  yearLong: 'YYYY',
+  yearShort: 'yy',
+  yearLong: 'yyyy',
   monthShort: 'MM',
   monthMedium: 'MMM',
   monthLong: 'MMMM',
-  dayShort: 'D',
-  dayMedium: 'dd D',
-  dayMediumLong: 'ddd, Do',
-  dayLong: 'dddd, Do',
+  dayShort: 'd',
+  dayMedium: 'EEEEEE d',
+  dayMediumLong: 'EEE, do',
+  dayLong: 'EEEE, do',
   hourShort: 'HH',
   hourLong: 'HH:00',
   minuteShort: 'mm',

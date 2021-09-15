@@ -1,17 +1,16 @@
 import React from 'react'
 import { render, cleanup, within, fireEvent } from 'react-testing-library'
-import Timeline from 'lib/Timeline'
 import DateHeader from 'lib/headers/DateHeader'
 import SidebarHeader from 'lib/headers/SidebarHeader'
 import TimelineHeaders from 'lib/headers/TimelineHeaders'
 import 'jest-dom/extend-expect'
 import { RenderHeadersWrapper } from '../../test-utility/header-renderer'
-import moment from 'moment'
+import { isDate, differenceInDays, parse, format as _format, differenceInMonths } from 'date-fns'
 
 describe('Testing DateHeader Component', () => {
   afterEach(cleanup)
 
-  const format = 'MM/DD/YYYY hh:mm a'
+  const format = 'MM/dd/yyyy hh:mm aaa'
 
   // Testing The Example In The Docs
   it('Given DateHeader When rendered Then it should be rendered correctly in the timeLine', () => {
@@ -48,7 +47,7 @@ describe('Testing DateHeader Component', () => {
 
     it('Given Dateheader When pass a string typed labelFormat Then it should render the intervals with the given format', () => {
       const { getAllByTestId } = render(
-        dateHeaderComponent({ unit: 'day', labelFormat: 'MM/DD' })
+        dateHeaderComponent({ unit: 'day', labelFormat: 'MM/dd' })
       )
       expect(getAllByTestId('dateHeader')[1]).toHaveTextContent('10/25')
       expect(getAllByTestId('dateHeader')[1]).toHaveTextContent('10/26')
@@ -56,7 +55,7 @@ describe('Testing DateHeader Component', () => {
     })
 
     it('Given Dateheader When pass a function typed labelFormat Then it should render the intervals with the given format', () => {
-      const formatlabel = jest.fn(interval => interval[0].format('MM/DD/YYYY'))
+      const formatlabel = jest.fn(interval => _format(interval[0], 'MM/dd/yyyy'))
       const { getAllByTestId } = render(
         dateHeaderComponent({ unit: 'day', labelFormat: formatlabel })
       )
@@ -69,16 +68,16 @@ describe('Testing DateHeader Component', () => {
     })
 
     it('Given Dateheader When pass a function typed labelFormat Then it should be called with an interval, label width and unit', () => {
-      const formatlabel = jest.fn(interval => interval[0].format('MM/DD/YYYY'))
+      const formatlabel = jest.fn(interval => _format(interval[0], 'MM/dd/yyyy'))
       render(dateHeaderComponent({ unit: 'day', labelFormat: formatlabel }))
 
       expect(formatlabel).toHaveBeenCalled()
 
       formatlabel.mock.calls.forEach(param => {
         const [[start, end], unit, labelWidth] = param
-        expect(moment.isMoment(start)).toBeTruthy()
-        expect(moment.isMoment(end)).toBeTruthy()
-        expect(end.diff(start, 'd')).toBe(1)
+        expect(isDate(start)).toBeTruthy()
+        expect(isDate(end)).toBeTruthy()
+        expect(differenceInDays(end, start)).toBe(1)
         expect(unit).toBe('day')
         expect(labelWidth).toEqual(expect.any(Number))
       })
@@ -86,7 +85,7 @@ describe('Testing DateHeader Component', () => {
   })
 
   it('Given Dateheader When click on the primary header Then it should change the unit', async () => {
-    const formatlabel = jest.fn(interval => interval[0].format('MM/DD/YYYY'))
+    const formatlabel = jest.fn(interval => _format(interval[0], 'MM/dd/yyyy'))
     const showPeriod = jest.fn()
     const { getByTestId } = render(
       dateHeaderComponent({ unit: 'day', labelFormat: formatlabel, showPeriod })
@@ -100,14 +99,14 @@ describe('Testing DateHeader Component', () => {
     primaryFirstClick.click()
     expect(showPeriod).toBeCalled()
     const [start, end] = showPeriod.mock.calls[0]
-    expect(start.format('DD/MM/YYYY hh:mm a')).toBe('01/01/2018 12:00 am')
-    expect(end.format('DD/MM/YYYY hh:mm a')).toBe('31/12/2018 11:59 pm')
+    expect(_format(start, 'dd/MM/yyyy hh:mm aaa')).toBe('01/01/2018 12:00 am')
+    expect(_format(end, 'dd/MM/yyyy hh:mm aaa')).toBe('31/12/2018 11:59 pm')
   })
 
   it('Given Dateheader When pass a className Then it should be applied to DateHeader', () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: 'MM/DD/YYYY',
+        labelFormat: 'MM/dd/yyyy',
         className: 'test-class-name'
       })
     )
@@ -117,7 +116,7 @@ describe('Testing DateHeader Component', () => {
   it('Given Interval When pass an override values for (width, left, position) it should not override the default values', () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: 'MM/DD/YYYY',
+        labelFormat: 'MM/dd/yyyy',
         props: { style: { width: 100, position: 'fixed', left: 2342 } }
       })
     )
@@ -132,7 +131,7 @@ describe('Testing DateHeader Component', () => {
   it('Given Interval When pass an override (width, position) Then it should ignore these values', () => {
     const { getAllByTestId, debug } = render(
       dateHeaderComponent({
-        labelFormat: 'MM/DD/YYYY',
+        labelFormat: 'MM/dd/yyyy',
         props: { style: { width: 100, position: 'fixed' } }
       })
     )
@@ -143,7 +142,7 @@ describe('Testing DateHeader Component', () => {
   it('Given Interval When pass any style other than (position, width, left) through the Dateheader Then it should take it', () => {
     const { getAllByTestId } = render(
       dateHeaderComponent({
-        labelFormat: 'MM/DD/YYYY',
+        labelFormat: 'MM/dd/yyyy',
         props: { style: { display: 'flex' } }
       })
     )
@@ -189,7 +188,7 @@ describe('Testing DateHeader Component', () => {
       const { getAllByTestId } = render(
         <RenderHeadersWrapper timelineState={{ timelineUnit: 'day' }}>
           <TimelineHeaders>
-            <DateHeader labelFormat={interval => interval[0].format(format)} />
+            <DateHeader labelFormat={interval => _format(interval[0], format)} />
           </TimelineHeaders>
         </RenderHeadersWrapper>
       )
@@ -200,9 +199,9 @@ describe('Testing DateHeader Component', () => {
         const a = intervals[index]
         const b = intervals[index + 1]
 
-        const timeStampA = moment(a, format)
-        const timeStampB = moment(b, format)
-        const diff = timeStampB.diff(timeStampA, 'day')
+        const timeStampA = parse(a, format, new Date())
+        const timeStampB = parse(b, format, new Date())
+        const diff = differenceInDays(timeStampB, timeStampA)
         expect(diff).toBe(1)
       }
     })
@@ -212,7 +211,7 @@ describe('Testing DateHeader Component', () => {
           <TimelineHeaders>
             <DateHeader
               unit="day"
-              labelFormat={interval => interval[0].format(format)}
+              labelFormat={interval => _format(interval[0], format)}
             />
           </TimelineHeaders>
         </RenderHeadersWrapper>
@@ -224,9 +223,9 @@ describe('Testing DateHeader Component', () => {
         const a = intervals[index]
         const b = intervals[index + 1]
 
-        const timeStampA = moment(a, format)
-        const timeStampB = moment(b, format)
-        const diff = timeStampB.diff(timeStampA, 'day')
+        const timeStampA = parse(a, format, new Date())
+        const timeStampB = parse(b, format, new Date())
+        const diff = differenceInDays(timeStampB, timeStampA)
         expect(diff).toBe(1)
       }
     })
@@ -237,7 +236,7 @@ describe('Testing DateHeader Component', () => {
           <TimelineHeaders>
             <DateHeader
               unit="primaryHeader"
-              labelFormat={interval => interval[0].format(format)}
+              labelFormat={interval => _format(interval[0], format)}
             />
           </TimelineHeaders>
         </RenderHeadersWrapper>
@@ -249,9 +248,9 @@ describe('Testing DateHeader Component', () => {
         const a = intervals[index]
         const b = intervals[index + 1]
 
-        const timeStampA = moment(a, format)
-        const timeStampB = moment(b, format)
-        const diff = timeStampB.diff(timeStampA, 'month')
+        const timeStampA = parse(a, format, new Date())
+        const timeStampB = parse(b, format, new Date())
+        const diff = differenceInMonths(timeStampB, timeStampA)
         expect(diff).toBe(1)
       }
     })
@@ -260,7 +259,7 @@ describe('Testing DateHeader Component', () => {
       const { getAllByTestId } = render(
         <RenderHeadersWrapper timelineState={{ timelineUnit: 'day' }}>
           <TimelineHeaders>
-            <DateHeader labelFormat={interval => interval[0].format(format)} />
+            <DateHeader labelFormat={interval => _format(interval[0], format)} />
           </TimelineHeaders>
         </RenderHeadersWrapper>
       )
@@ -271,9 +270,9 @@ describe('Testing DateHeader Component', () => {
         const a = intervals[index]
         const b = intervals[index + 1]
 
-        const timeStampA = moment(a, format)
-        const timeStampB = moment(b, format)
-        const diff = timeStampB.diff(timeStampA, 'day')
+        const timeStampA = parse(a, format, new Date())
+        const timeStampB = parse(b, format, new Date())
+        const diff = differenceInDays(timeStampB, timeStampA)
         expect(diff).toBe(1)
       }
     })
@@ -344,8 +343,8 @@ describe('Testing DateHeader Component', () => {
       expect(renderer.mock.calls[0][0].intervalContext).toEqual(
         expect.objectContaining({
           interval: expect.objectContaining({
-            startTime: expect.any(moment),
-            endTime: expect.any(moment),
+            startTime: expect.any(Date),
+            endTime: expect.any(Date),
             labelWidth: expect.any(Number),
             left: expect.any(Number)
           }),
@@ -478,7 +477,7 @@ function dateHeaderWithIntervalRenderer({ intervalRenderer, props } = {}) {
         <DateHeader unit="primaryHeader" />
         <DateHeader
           unit={'day'}
-          labelFormat={'MM/DD/YYYY'}
+          labelFormat={'MM/dd/yyyy'}
           headerData={props}
           intervalRenderer={intervalRenderer}
         />

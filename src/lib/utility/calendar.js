@@ -1,5 +1,101 @@
-import moment from 'moment'
+import {
+  startOfYear,
+  startOfQuarter,
+  startOfMonth,
+  startOfWeek,
+  startOfISOWeek,
+  startOfDay,
+  startOfHour,
+  startOfMinute,
+  startOfSecond,
+
+  endOfYear,
+  endOfQuarter,
+  endOfMonth,
+  endOfWeek,
+  endOfISOWeek,
+  endOfDay,
+  endOfHour,
+  endOfMinute,
+  endOfSecond,
+
+  addYears,
+  addQuarters,
+  addMonths,
+  addWeeks,
+  addDays,
+  addHours,
+  addMinutes,
+  addSeconds,
+  addMilliseconds,
+
+  getYear, setYear,
+  getMonth, setMonth,
+  getDate, setDate,
+  getHours, setHours,
+  getMinutes, setMinutes,
+  getSeconds, setSeconds,
+  getMilliseconds, setMilliseconds, getTime
+} from 'date-fns'
 import { _get } from './generic'
+
+const startOfMap = {
+  year: startOfYear,
+  quarter: startOfQuarter,
+  month: startOfMonth,
+  week: startOfWeek,
+  isoWeek: startOfISOWeek,
+  day: startOfDay,
+  date: startOfDay,
+  hour: startOfHour,
+  minute: startOfMinute,
+  second: startOfSecond,
+}
+
+const endOfMap = {
+  year: endOfYear,
+  quarter: endOfQuarter,
+  month: endOfMonth,
+  week: endOfWeek,
+  isoWeek: endOfISOWeek,
+  day: endOfDay,
+  date: endOfDay,
+  hour: endOfHour,
+  minute: endOfMinute,
+  second: endOfSecond,
+}
+
+const addMap = {
+  year: addYears,
+  quarter: addQuarters,
+  month: addMonths,
+  week: addWeeks,
+  day: addDays,
+  hour: addHours,
+  minute: addMinutes,
+  second: addSeconds,
+  millisecond: addMilliseconds,
+}
+
+const getMap = {
+  year: getYear,
+  month: getMonth,
+  date: getDate,
+  hour: getHours,
+  minute: getMinutes,
+  second: getSeconds,
+  millisecond: getMilliseconds,
+}
+
+const setMap = {
+  year: setYear,
+  month: setMonth,
+  date: setDate,
+  hour: setHours,
+  minute: setMinutes,
+  second: setSeconds,
+  millisecond: setMilliseconds,
+}
 
 /**
  * Calculate the ms / pixel ratio of the timeline state
@@ -60,15 +156,15 @@ export function calculateTimeForXPosition(
 }
 
 export function iterateTimes(start, end, unit, timeSteps, callback) {
-  let time = moment(start).startOf(unit)
+  let time = startOfMap[unit](new Date(start))
 
   if (timeSteps[unit] && timeSteps[unit] > 1) {
-    let value = time.get(unit)
-    time.set(unit, value - value % timeSteps[unit])
+    let value = getMap[unit](time)
+    setMap[unit](time, value - value % timeSteps[unit])
   }
 
-  while (time.valueOf() < end) {
-    let nextTime = moment(time).add(timeSteps[unit] || 1, `${unit}s`)
+  while (getTime(time) < end) {
+    let nextTime = addMap[unit](time, timeSteps[unit] || 1)
     callback(time, nextTime)
     time = nextTime
   }
@@ -402,7 +498,7 @@ export function stackAll(itemsDimensions, groupOrders, lineHeight, stackItems) {
       groupHeights.push(Math.max(groupHeight, lineHeight))
     }
   }
-  
+
   return {
     height: sum(groupHeights),
     groupHeights,
@@ -411,11 +507,11 @@ export function stackAll(itemsDimensions, groupOrders, lineHeight, stackItems) {
 }
 
 /**
- * 
- * @param {*} itemsDimensions 
- * @param {*} isGroupStacked 
- * @param {*} lineHeight 
- * @param {*} groupTop 
+ *
+ * @param {*} itemsDimensions
+ * @param {*} isGroupStacked
+ * @param {*} lineHeight
+ * @param {*} groupTop
  */
 export function stackGroup(itemsDimensions, isGroupStacked, lineHeight, groupTop) {
   var groupHeight = 0
@@ -717,4 +813,12 @@ export function calculateScrollCanvas(
     )
   }
   return newState
+}
+
+export function startOf(date, unit) {
+  return startOfMap[unit](date);
+}
+
+export function endOf(date, unit) {
+  return endOfMap[unit](date);
 }

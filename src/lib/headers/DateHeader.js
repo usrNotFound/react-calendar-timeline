@@ -6,6 +6,7 @@ import { getNextUnit } from '../utility/calendar'
 import { defaultHeaderFormats } from '../default-config'
 import memoize from 'memoize-one'
 import { CustomDateHeader } from './CustomDateHeader'
+import { format as _format } from 'date-fns'
 
 class DateHeader extends React.Component {
   static propTypes = {
@@ -43,7 +44,7 @@ class DateHeader extends React.Component {
     const { labelFormat } = this.props
     if (typeof labelFormat === 'string') {
       const startTime = interval[0]
-      return startTime.format(labelFormat)
+      return _format(startTime, labelFormat)
     } else if (typeof labelFormat === 'function') {
       return labelFormat(interval, unit, labelWidth)
     } else {
@@ -154,7 +155,7 @@ function formatLabel(
   } else {
     format = formatOptions[unit]['short']
   }
-  return timeStart.format(format)
+  return _format(timeStart, format)
 }
 
 export default DateHeaderWrapper

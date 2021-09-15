@@ -1,5 +1,6 @@
 import React from 'react'
 import Interval from './Interval'
+import { getTime } from 'date-fns'
 export function CustomDateHeader({
   headerContext: { intervals, unit },
   getRootProps,
@@ -28,7 +29,7 @@ export function CustomDateHeader({
         )
         return (
           <Interval
-            key={`label-${interval.startTime.valueOf()}`}
+            key={`label-${getTime(interval.startTime)}`}
             unit={unit}
             interval={interval}
             showPeriod={showPeriod}

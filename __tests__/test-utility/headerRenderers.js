@@ -4,6 +4,9 @@ import DateHeader from 'lib/headers/DateHeader';
 import SidebarHeader from 'lib/headers/SidebarHeader';
 import TimelineHeaders from 'lib/headers/TimelineHeaders';
 import CustomHeader from 'lib/headers/CustomHeader'
+import {
+  format as _format,
+} from 'date-fns'
 
 import { RenderHeadersWrapper } from './header-renderer';
 export function renderSidebarHeaderWithCustomValues({ variant = undefined, props, timelineState, headersState, extraProps } = {}) {
@@ -149,7 +152,7 @@ export function getCustomHeadersInTimeline({
                       })}
                     >
                       <div className="sticky">
-                        {interval.startTime.format('DD/MM/YYYY')}
+                        {_format(interval.startTime, 'dd/MM/yyyy')}
                       </div>
                     </div>
                   )

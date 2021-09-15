@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getNextUnit } from '../utility/calendar'
+import { endOf, getNextUnit, startOf } from '../utility/calendar'
 import { composeEvents } from '../utility/events'
 
 class Interval extends React.PureComponent {
@@ -19,8 +19,8 @@ class Interval extends React.PureComponent {
     const { primaryHeader, interval, unit, showPeriod } = this.props
     if (primaryHeader) {
       const nextUnit = getNextUnit(unit)
-      const newStartTime = interval.startTime.clone().startOf(nextUnit)
-      const newEndTime = interval.startTime.clone().endOf(nextUnit)
+      const newStartTime = startOf(interval.startTime, nextUnit)
+      const newEndTime = endOf(interval.startTime, nextUnit)
       showPeriod(newStartTime, newEndTime)
     } else {
       showPeriod(interval.startTime, interval.endTime)

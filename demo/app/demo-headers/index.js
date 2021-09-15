@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react'
-import moment from 'moment'
+import { formatISO, format as _format, add, getTime, startOfDay } from 'date-fns'
 
 import Timeline, {
   TimelineMarkers,
@@ -15,12 +15,8 @@ import Timeline, {
 
 import generateFakeData from '../generate-fake-data'
 
-var minTime = moment()
-  .add(-6, 'months')
-  .valueOf()
-var maxTime = moment()
-  .add(6, 'months')
-  .valueOf()
+var minTime = getTime(add(new Date(), {months: -6}))
+var maxTime = getTime(add(new Date(), {months: 6}))
 
 var keys = {
   groupIdKey: 'id',
@@ -39,13 +35,8 @@ export default class App extends Component {
     super(props)
 
     const { groups, items } = generateFakeData()
-    const defaultTimeStart = moment()
-      .startOf('day')
-      .toDate()
-    const defaultTimeEnd = moment()
-      .startOf('day')
-      .add(1, 'day')
-      .toDate()
+    const defaultTimeStart = startOfDay(new Date())
+    const defaultTimeEnd = add(startOfDay(new Date()), {days: 1})
 
     this.state = {
       groups,
@@ -62,31 +53,31 @@ export default class App extends Component {
   }
 
   handleCanvasClick = (groupId, time) => {
-    console.log('Canvas clicked', groupId, moment(time).format())
+    console.log('Canvas clicked', groupId, formatISO(time))
   }
 
   handleCanvasDoubleClick = (groupId, time) => {
-    console.log('Canvas double clicked', groupId, moment(time).format())
+    console.log('Canvas double clicked', groupId, formatISO(time))
   }
 
   handleCanvasContextMenu = (group, time) => {
-    console.log('Canvas context menu', group, moment(time).format())
+    console.log('Canvas context menu', group, formatISO(time))
   }
 
   handleItemClick = (itemId, _, time) => {
-    console.log('Clicked: ' + itemId, moment(time).format())
+    console.log('Clicked: ' + itemId, formatISO(time))
   }
 
   handleItemSelect = (itemId, _, time) => {
-    console.log('Selected: ' + itemId, moment(time).format())
+    console.log('Selected: ' + itemId, formatISO(time))
   }
 
   handleItemDoubleClick = (itemId, _, time) => {
-    console.log('Double Click: ' + itemId, moment(time).format())
+    console.log('Double Click: ' + itemId, formatISO(time))
   }
 
   handleItemContextMenu = (itemId, _, time) => {
-    console.log('Context Menu: ' + itemId, moment(time).format())
+    console.log('Context Menu: ' + itemId, formatISO(time))
   }
 
   handleItemMove = (itemId, dragTime, newGroupOrder) => {
@@ -209,7 +200,7 @@ export default class App extends Component {
                   showPeriod,
                   data,
                 },
-                
+
               ) => {
                 console.log('props', data)
                 return (
@@ -234,7 +225,7 @@ export default class App extends Component {
                           })}
                         >
                           <div className="sticky">
-                            {interval.startTime.format('YYYY')}
+                            {_format(interval.startTime, 'yyyy')}
                           </div>
                         </div>
                       )
@@ -272,7 +263,7 @@ export default class App extends Component {
                           })}
                         >
                           <div className="sticky">
-                            {interval.startTime.format('MM/DD')}
+                            {_format(interval.startTime, 'MM/dd')}
                           </div>
                         </div>
                       )
@@ -307,7 +298,7 @@ export default class App extends Component {
                             style: intervalStyle
                           })}
                         >
-                          {interval.startTime.format('HH')}
+                          {_format(interval.startTime, 'HH')}
                         </div>
                       )
                     })}
@@ -322,7 +313,7 @@ export default class App extends Component {
               headerData={{ hey: 'date header' }}
               intervalRenderer={(
                 { getIntervalProps, intervalContext, data },
-                
+
               ) => {
                 console.log('intervalRenderer props', data)
                 return (
@@ -346,16 +337,12 @@ export default class App extends Component {
             <TodayMarker />
             <CustomMarker
               date={
-                moment()
-                  .startOf('day')
-                  .valueOf() +
+                getTime(startOfDay(new Date())) +
                 1000 * 60 * 60 * 2
               }
             />
             <CustomMarker
-              date={moment()
-                .add(3, 'day')
-                .valueOf()}
+              date={getTime(add(new Date(), {days: 3}))}
             >
               {({ styles }) => {
                 const newStyles = { ...styles, backgroundColor: 'blue' }

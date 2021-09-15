@@ -1,5 +1,5 @@
 import { calculateXPositionForTime } from 'lib/utility/calendar'
-import moment from 'moment'
+import { addDays, getTime, startOfDay } from 'date-fns'
 
 describe('calculateXPositionForTime', () => {
   const width = 1000
@@ -21,12 +21,9 @@ describe('calculateXPositionForTime', () => {
   })
 
   it('returns time in the middle of timeline with actual date', () => {
-    const today = moment().startOf('day')
-    const startTime = today.valueOf()
-    const endTime = today
-      .clone()
-      .add(1, 'day')
-      .valueOf()
+    const today = startOfDay(new Date())
+    const startTime = getTime(today)
+    const endTime = getTime(addDays(today, 1))
     const time = startTime + (endTime - startTime) * 0.5
     const result = calculateXPositionForTime(startTime, endTime, width, time)
 

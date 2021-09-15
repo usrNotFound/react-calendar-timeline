@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { TimelineHeadersConsumer } from './HeadersContext'
 import { TimelineStateConsumer } from '../timeline/TimelineStateContext'
 import { iterateTimes } from '../utility/calendar'
+import { getTime } from 'date-fns'
 
 const getHeaderIntervals = ({
   canvasTimeStart,
@@ -18,8 +19,8 @@ const getHeaderIntervals = ({
     unit,
     timeSteps,
     (startTime, endTime) => {
-      const left = getLeftOffsetFromDate(startTime.valueOf())
-      const right = getLeftOffsetFromDate(endTime.valueOf())
+      const left = getLeftOffsetFromDate(getTime(startTime))
+      const right = getLeftOffsetFromDate(getTime(endTime))
       const width = right - left
       intervals.push({
         startTime,
@@ -151,7 +152,7 @@ export class CustomHeader extends React.Component {
         unit: this.props.unit,
         left
       }),
-      key: `label-${startTime.valueOf()}`
+      key: `label-${getTime(startTime)}`
     }
   }
 

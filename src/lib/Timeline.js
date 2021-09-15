@@ -29,6 +29,7 @@ import { TimelineMarkersProvider } from './markers/TimelineMarkersContext'
 import { TimelineHeadersProvider } from './headers/HeadersContext'
 import TimelineHeaders from './headers/TimelineHeaders'
 import DateHeader from './headers/DateHeader'
+import { getTime } from 'date-fns'
 
 export default class ReactCalendarTimeline extends Component {
   static propTypes = {
@@ -272,8 +273,8 @@ export default class ReactCalendarTimeline extends Component {
     let visibleTimeEnd = null
 
     if (this.props.defaultTimeStart && this.props.defaultTimeEnd) {
-      visibleTimeStart = this.props.defaultTimeStart.valueOf()
-      visibleTimeEnd = this.props.defaultTimeEnd.valueOf()
+      visibleTimeStart = getTime(this.props.defaultTimeStart)
+      visibleTimeEnd = getTime(this.props.defaultTimeEnd)
     } else if (this.props.visibleTimeStart && this.props.visibleTimeEnd) {
       visibleTimeStart = this.props.visibleTimeStart
       visibleTimeEnd = this.props.visibleTimeEnd
@@ -555,8 +556,8 @@ export default class ReactCalendarTimeline extends Component {
   }
 
   showPeriod = (from, to) => {
-    let visibleTimeStart = from.valueOf()
-    let visibleTimeEnd = to.valueOf()
+    let visibleTimeStart = getTime(from)
+    let visibleTimeEnd = getTime(to)
 
     let zoom = visibleTimeEnd - visibleTimeStart
     // can't zoom in more than to show one hour

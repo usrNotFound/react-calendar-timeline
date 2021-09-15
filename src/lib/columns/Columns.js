@@ -1,5 +1,15 @@
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
+import {
+  getYear,
+  getMonth,
+  getDate,
+  getDay,
+  getHours,
+  getMinutes,
+  getSeconds,
+  getMilliseconds, getTime
+} from 'date-fns'
 
 import { iterateTimes } from '../utility/calendar'
 import { TimelineStateConsumer } from '../timeline/TimelineStateContext'
@@ -13,6 +23,16 @@ const passThroughPropTypes = {
   timeSteps: PropTypes.object.isRequired,
   height: PropTypes.number.isRequired,
   verticalLineClassNamesForTime: PropTypes.func
+}
+
+const getMap = {
+  year: getYear,
+  month: getMonth,
+  date: getDate,
+  hour: getHours,
+  minute: getMinutes,
+  second: getSeconds,
+  millisecond: getMilliseconds,
 }
 
 class Columns extends Component {
@@ -56,7 +76,7 @@ class Columns extends Component {
       minUnit,
       timeSteps,
       (time, nextTime) => {
-        const minUnitValue = time.get(minUnit === 'day' ? 'date' : minUnit)
+        const minUnitValue = getMap[minUnit === 'day' ? 'date' : minUnit](time)
         const firstOfType = minUnitValue === (minUnit === 'day' ? 1 : 0)
 
         let classNamesForTime = []
@@ -72,15 +92,15 @@ class Columns extends Component {
           'rct-vl' +
           (firstOfType ? ' rct-vl-first' : '') +
           (minUnit === 'day' || minUnit === 'hour' || minUnit === 'minute'
-            ? ` rct-day-${time.day()} `
+            ? ` rct-day-${getDay(time)} `
             : '') +
           classNamesForTime.join(' ')
 
-        const left = getLeftOffsetFromDate(time.valueOf())
-        const right = getLeftOffsetFromDate(nextTime.valueOf())
+        const left = getLeftOffsetFromDate(getTime(time))
+        const right = getLeftOffsetFromDate(getTime(nextTime))
         lines.push(
           <div
-            key={`line-${time.valueOf()}`}
+            key={`line-${getTime(time)}`}
             className={classNames}
             style={{
               pointerEvents: 'none',
