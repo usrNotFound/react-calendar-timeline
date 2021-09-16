@@ -8,7 +8,7 @@ import { RenderHeadersWrapper } from '../../test-utility/header-renderer'
 import { getCustomHeadersInTimeline } from '../../test-utility/headerRenderers'
 import { parsePxToNumbers } from '../../test-utility/index'
 
-import 'jest-dom/extend-expect'
+import '@testing-library/jest-dom/extend-expect'
 import { getTime, intervalToDuration, parse, format as _format } from 'date-fns'
 
 describe('CustomHeader Component Test', () => {
