@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { Component } from 'react'
 
 import Items from './items/Items'
+import { ItemContext } from './items/Item'
 import Sidebar from './layout/Sidebar'
 import Columns from './columns/Columns'
 import GroupRows from './row/GroupRows'
@@ -230,18 +231,6 @@ export default class ReactCalendarTimeline extends Component {
     subHeaderLabelFormats: defaultSubHeaderLabelFormats,
 
     selected: null
-  }
-
-  static childContextTypes = {
-    getTimelineContext: PropTypes.func
-  }
-
-  getChildContext() {
-    return {
-      getTimelineContext: () => {
-        return this.getTimelineContext()
-      }
-    }
   }
 
   getTimelineContext = () => {
@@ -795,35 +784,37 @@ export default class ReactCalendarTimeline extends Component {
     groupTops
   ) {
     return (
-      <Items
-        canvasTimeStart={canvasTimeStart}
-        canvasTimeEnd={canvasTimeEnd}
-        canvasWidth={canvasWidth}
-        dimensionItems={dimensionItems}
-        groupTops={groupTops}
-        items={this.props.items}
-        groups={this.props.groups}
-        keys={this.props.keys}
-        selectedItem={this.state.selectedItem}
-        dragSnap={this.props.dragSnap}
-        minResizeWidth={this.props.minResizeWidth}
-        canChangeGroup={this.props.canChangeGroup}
-        canMove={this.props.canMove}
-        canResize={this.props.canResize}
-        useResizeHandle={this.props.useResizeHandle}
-        canSelect={this.props.canSelect}
-        moveResizeValidator={this.props.moveResizeValidator}
-        itemSelect={this.selectItem}
-        itemDrag={this.dragItem}
-        itemDrop={this.dropItem}
-        onItemDoubleClick={this.doubleClickItem}
-        onItemContextMenu={this.contextMenuClickItem}
-        itemResizing={this.resizingItem}
-        itemResized={this.resizedItem}
-        itemRenderer={this.props.itemRenderer}
-        selected={this.props.selected}
-        scrollRef={this.scrollComponent}
-      />
+      <ItemContext.Provider value={{ getTimelineContext: () => {return this.getTimelineContext()} }}>
+        <Items
+          canvasTimeStart={canvasTimeStart}
+          canvasTimeEnd={canvasTimeEnd}
+          canvasWidth={canvasWidth}
+          dimensionItems={dimensionItems}
+          groupTops={groupTops}
+          items={this.props.items}
+          groups={this.props.groups}
+          keys={this.props.keys}
+          selectedItem={this.state.selectedItem}
+          dragSnap={this.props.dragSnap}
+          minResizeWidth={this.props.minResizeWidth}
+          canChangeGroup={this.props.canChangeGroup}
+          canMove={this.props.canMove}
+          canResize={this.props.canResize}
+          useResizeHandle={this.props.useResizeHandle}
+          canSelect={this.props.canSelect}
+          moveResizeValidator={this.props.moveResizeValidator}
+          itemSelect={this.selectItem}
+          itemDrag={this.dragItem}
+          itemDrop={this.dropItem}
+          onItemDoubleClick={this.doubleClickItem}
+          onItemContextMenu={this.contextMenuClickItem}
+          itemResizing={this.resizingItem}
+          itemResized={this.resizedItem}
+          itemRenderer={this.props.itemRenderer}
+          selected={this.props.selected}
+          scrollRef={this.scrollComponent}
+        />
+      </ItemContext.Provider>
     )
   }
 

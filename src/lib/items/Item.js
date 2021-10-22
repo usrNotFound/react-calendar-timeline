@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import interact from 'interactjs'
 
@@ -24,6 +24,10 @@ function getSetOffset(date) {
     ? -Math.round(date.getTimezoneOffset() / 15) * 15
     : NaN
 }
+
+export const ItemContext = React.createContext({
+  getTimelineContext: () => {},
+});
 
 export default class Item extends Component {
   // removed prop type check for SPEED!
@@ -71,9 +75,7 @@ export default class Item extends Component {
     itemRenderer: defaultItemRenderer
   }
 
-  static contextTypes = {
-    getTimelineContext: PropTypes.func
-  }
+  static contextType = ItemContext;
 
   constructor(props) {
     super(props)
