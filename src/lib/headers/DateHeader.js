@@ -7,6 +7,7 @@ import { defaultHeaderFormats } from '../default-config'
 import memoize from 'memoize-one'
 import { CustomDateHeader } from './CustomDateHeader'
 import { format as _format } from 'date-fns'
+import DateContext from '../DateContext'
 
 class DateHeader extends React.Component {
   static propTypes = {
@@ -23,6 +24,8 @@ class DateHeader extends React.Component {
     headerData: PropTypes.object,
     height: PropTypes.number
   }
+
+  static contextType = DateContext
 
   getHeaderUnit = () => {
     if (this.props.unit === 'primaryHeader') {
@@ -44,9 +47,9 @@ class DateHeader extends React.Component {
     const { labelFormat } = this.props
     if (typeof labelFormat === 'string') {
       const startTime = interval[0]
-      return _format(startTime, labelFormat)
+      return _format(startTime, labelFormat, {locale: this.context.locale})
     } else if (typeof labelFormat === 'function') {
-      return labelFormat(interval, unit, labelWidth)
+      return labelFormat(interval, unit, labelWidth, this.context)
     } else {
       throw new Error('labelFormat should be function or string')
     }
@@ -94,14 +97,14 @@ class DateHeader extends React.Component {
 }
 
 const DateHeaderWrapper = ({
-  unit,
-  labelFormat,
-  style,
-  className,
-  intervalRenderer,
-  headerData,
-  height
-}) => (
+                             unit,
+                             labelFormat,
+                             style,
+                             className,
+                             intervalRenderer,
+                             headerData,
+                             height
+                           }) => (
   <TimelineStateConsumer>
     {({ getTimelineState }) => {
       const timelineState = getTimelineState()
@@ -143,6 +146,7 @@ function formatLabel(
   [timeStart, timeEnd],
   unit,
   labelWidth,
+  dateContext,
   formatOptions = defaultHeaderFormats
 ) {
   let format
@@ -155,7 +159,7 @@ function formatLabel(
   } else {
     format = formatOptions[unit]['short']
   }
-  return _format(timeStart, format)
+  return _format(timeStart, format, {locale: dateContext.locale})
 }
 
 export default DateHeaderWrapper
