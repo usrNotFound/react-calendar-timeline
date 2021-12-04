@@ -2,6 +2,12 @@
 
 A modern and responsive React timeline component.
 
+####Forked from [namespace-ee/react-calendar-timeline](https://github.com/namespace-ee/react-calendar-timeline)
+
+Main improvements are :
+* Using date-fns instead of moment
+* Full compatibility with React 17
+
 ![calendar demo](https://raw.githubusercontent.com/namespace-ee/react-calendar-timeline/master/demo.gif)
 
 Checkout the [examples here](https://github.com/namespace-ee/react-calendar-timeline/tree/master/examples)!
@@ -435,8 +441,8 @@ Rather than applying props on the element yourself and to avoid your props being
   * onTouchEnd: event handler
   * onDoubleClick: event handler
   * onContextMenu: event handler
-  * style: inline object 
-  
+  * style: inline object
+
 
   \*\* _the given styles will only override the styles that are not a requirement for positioning the item. Other styles like `color`, `radius` and others_
 
