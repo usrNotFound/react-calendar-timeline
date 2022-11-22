@@ -57,6 +57,7 @@ export default class Sidebar extends Component {
 
       return (
         <div
+          data-testid="sidebar"
           key={_get(group, groupIdKey)}
           className={
             'rct-sidebar-row rct-sidebar-row-' + (index % 2 === 0 ? 'even' : 'odd')

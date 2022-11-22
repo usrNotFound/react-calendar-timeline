@@ -1,7 +1,8 @@
 import React from 'react'
-import { mount, render } from 'enzyme'
 import { noop } from 'test-utility'
 import GroupRow from 'lib/row/GroupRow'
+import { render, screen, fireEvent } from '@testing-library/react'
+
 
 const defaultProps = {
   onClick: noop,
@@ -16,16 +17,15 @@ const defaultProps = {
 // using mount to be able to interact with element, render
 // to assert dom level props (styles, className)
 describe('GroupRow', () => {
-  it('calls passed in onDoubleClick', () => {
+  it('calls passed in onDoubleClick',  () => {
     const onDoubleClickMock = jest.fn()
     const props = {
       ...defaultProps,
       onDoubleClick: onDoubleClickMock
     }
 
-    const wrapper = mount(<GroupRow {...props} />)
-
-    wrapper.simulate('doubleclick')
+    render(<GroupRow {...props} />)
+    fireEvent.dblClick(screen.getByTestId('group'))
 
     expect(onDoubleClickMock).toHaveBeenCalledTimes(1)
   })
@@ -37,9 +37,9 @@ describe('GroupRow', () => {
       onClick: onClickMock
     }
 
-    const wrapper = mount(<GroupRow {...props} />)
+    render(<GroupRow {...props} />)
 
-    wrapper.simulate('click')
+    fireEvent.click(screen.getByTestId('group'))
 
     expect(onClickMock).toHaveBeenCalledTimes(1)
   })
@@ -51,9 +51,9 @@ describe('GroupRow', () => {
       onContextMenu: onContextMenuMock
     }
 
-    const wrapper = mount(<GroupRow {...props} />)
+    render(<GroupRow {...props} />)
 
-    wrapper.simulate('contextmenu')
+    fireEvent.contextMenu(screen.getByTestId('group'))
 
     expect(onContextMenuMock).toHaveBeenCalledTimes(1)
   })
@@ -63,9 +63,9 @@ describe('GroupRow', () => {
       isEvenRow: true
     }
 
-    const wrapper = render(<GroupRow {...props} />)
+    render(<GroupRow {...props} />)
 
-    expect(wrapper.prop('class').trim()).toBe('rct-hl-even')
+    expect(screen.getByTestId('group').className.trim()).toBe('rct-hl-even')
   })
   it('assigns "rct-hl-odd" if isEvenRow is false', () => {
     const props = {
@@ -73,9 +73,9 @@ describe('GroupRow', () => {
       isEvenRow: false
     }
 
-    const wrapper = render(<GroupRow {...props} />)
+    render(<GroupRow {...props} />)
 
-    expect(wrapper.prop('class').trim()).toBe('rct-hl-odd')
+    expect(screen.getByTestId('group').className.trim()).toBe('rct-hl-odd')
   })
   it('passes style prop to style', () => {
     const props = {
@@ -83,8 +83,8 @@ describe('GroupRow', () => {
       style: { border: '1px solid black' }
     }
 
-    const wrapper = render(<GroupRow {...props} />)
+    render(<GroupRow {...props} />)
 
-    expect(wrapper.prop('style').border).toBe(props.style.border)
+    expect(screen.getByTestId('group').style.border).toBe(props.style.border)
   })
 })

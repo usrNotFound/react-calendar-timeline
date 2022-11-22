@@ -12,6 +12,9 @@ class SidebarHeader extends React.PureComponent {
     headerData: PropTypes.object
   }
 
+  static defaultProps = {
+    headerData: undefined
+  }
   getRootProps = (props = {}) => {
     const { style } = props
     const width =

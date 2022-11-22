@@ -192,7 +192,11 @@ export default class ReactCalendarTimeline extends Component {
     onCanvasClick: null,
     onItemDoubleClick: null,
     onItemContextMenu: null,
+    onCanvasDoubleClick: null,
+    onCanvasContextMenu: null,
     onZoom: null,
+
+    resizeDetector: null,
 
     verticalLineClassNamesForTime: null,
 

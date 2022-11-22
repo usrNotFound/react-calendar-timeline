@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import React from 'react'
-import { mount } from 'enzyme'
 import Timeline from 'lib/Timeline'
 
 import { addHours } from 'date-fns'

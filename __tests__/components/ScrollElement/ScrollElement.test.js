@@ -1,7 +1,7 @@
 import React from 'react'
-import { mount } from 'enzyme'
 import { sel, noop } from 'test-utility'
 import ScrollElement from 'lib/scroll/ScrollElement'
+import { fireEvent, render } from '@testing-library/react'
 
 const defaultProps = {
   width: 1000,
@@ -33,7 +33,7 @@ xdescribe('ScrollElement', () => {
       onMouseMoveMock,
       onMouseEnterMock,
       onContextMenuMock,
-      wrapper
+      container
 
     beforeEach(() => {
       onDoubleClickMock = jest.fn()
@@ -51,27 +51,27 @@ xdescribe('ScrollElement', () => {
         onContextMenu: onContextMenuMock
       }
 
-      wrapper = mount(
+      container = render(
         <ScrollElement {...props}>
           <div />
         </ScrollElement>
-      )
+      ).container
     })
 
     it('scroll element onMouseLeave calls passed in onMouseLeave', () => {
-      wrapper.find(scrollElementSelector).simulate('mouseleave')
+      fireEvent.mouseLeave(container)
       expect(onMouseLeaveMock).toHaveBeenCalledTimes(1)
     })
     it('scroll element onMouseMove calls passed in onMouseMove', () => {
-      wrapper.find(scrollElementSelector).simulate('mousemove')
+      fireEvent.mouseMove(container)
       expect(onMouseMoveMock).toHaveBeenCalledTimes(1)
     })
     it('scroll element onMouseEnter calls passed in onMouseEnter', () => {
-      wrapper.find(scrollElementSelector).simulate('mouseenter')
+      fireEvent.mouseEnter(container)
       expect(onMouseEnterMock).toHaveBeenCalledTimes(1)
     })
     it('scroll element onContextMenu calls passed in onContextMenu', () => {
-      wrapper.find(scrollElementSelector).simulate('contextmenu')
+      fireEvent.contextMenu(container)
       expect(onContextMenuMock).toHaveBeenCalledTimes(1)
     })
   })
