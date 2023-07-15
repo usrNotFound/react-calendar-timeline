@@ -4,7 +4,7 @@ import generateFakeData from '../generate-fake-data'
 import Timeline from "react-calendar-timeline";
 import { add, getHours, getMinutes, isSameDay, parse, startOfDay } from 'date-fns'
 
-const format = "DD.MM.YYYY"
+const format = "dd.MM.yyyy"
 const holidays = [parse("01.01.2018", format, new Date()), parse("06.01.2018", format, new Date()), parse("30.03.2018", format, new Date()),
   parse("01.04.2018", format, new Date()), parse("02.04.2018", format, new Date()), parse("01.05.2018", format, new Date()),
   parse("10.05.2018", format, new Date()), parse("20.05.2018", format, new Date()), parse("21.05.2018", format, new Date()),

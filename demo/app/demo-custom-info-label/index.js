@@ -81,7 +81,7 @@ export default class App extends Component {
   handleItemDrag = ({ eventType, itemId, time, edge, newGroupOrder }) => {
     const group = this.state.groups[newGroupOrder]
     const infoLabelGroupTitle = group ? group.title : ''
-    const infoLabelTime = format(time, 'EEEE, MMMM Do YYYY')
+    const infoLabelTime = format(time, 'EEEE, MMMM Do yyyy')
     let heading = ''
     switch (eventType) {
       case 'move':

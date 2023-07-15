@@ -308,7 +308,7 @@ export default class App extends Component {
             </CustomHeader>
             <DateHeader
               unit="week"
-              labelFormat="MM/DD"
+              labelFormat="MM/dd"
               height={50}
               headerData={{ hey: 'date header' }}
               intervalRenderer={(

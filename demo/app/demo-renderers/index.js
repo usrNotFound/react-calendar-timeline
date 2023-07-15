@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 import Timeline from 'react-calendar-timeline'
 
 import generateFakeData from '../generate-fake-data'
-import { add, endOfMonth, startOfMonth } from 'date-fns'
+import { add, endOfMonth, formatISO, startOfMonth } from 'date-fns'
 
 var minTime = add(new Date(), {months: -6}).valueOf()
 var maxTime = add(new Date(), {months: 6}).valueOf()

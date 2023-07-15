@@ -7,6 +7,10 @@ and this project adheres (more or less) to [Semantic Versioning](http://semver.o
 
 ## Unreleased
 
+## 0.30.0
+
+* Fix compatibility with React 17
+* Replace `moment` by `date-fns`
 
 ## 0.28.0
 

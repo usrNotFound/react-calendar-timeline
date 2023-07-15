@@ -4,7 +4,7 @@ import Timeline from 'react-calendar-timeline'
 // import containerResizeDetector from 'react-calendar-timeline/lib/resize-detector/container'
 
 import generateFakeData from '../generate-fake-data'
-import { add, startOfDay } from 'date-fns'
+import { add, formatISO, startOfDay } from 'date-fns'
 
 var minTime = add(new Date(), {months: -6}).valueOf()
 var maxTime = add(new Date(), {months: 6}).valueOf()
