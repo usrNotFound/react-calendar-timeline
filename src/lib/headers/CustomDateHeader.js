@@ -48,19 +48,18 @@ export function CustomDateHeader({
 
 CustomDateHeader.propTypes = {
   headerContext: PropTypes.shape({
-    intervals: PropTypes.shape({startTime: PropTypes.number, endTime: PropTypes.number}).isRequired,
+    intervals: PropTypes.array.isRequired,
     unit: PropTypes.string.isRequired
   }).isRequired,
   getRootProps: PropTypes.func.isRequired,
   getIntervalProps: PropTypes.func.isRequired,
   showPeriod: PropTypes.func.isRequired,
-  data: {
+  data: PropTypes.shape({
     style: PropTypes.object,
     intervalRenderer: PropTypes.func,
     className: PropTypes.string,
     getLabelFormat: PropTypes.func.isRequired,
     unitProp: PropTypes.string,
     headerData: PropTypes.object
-  }
-
+  })
 }
