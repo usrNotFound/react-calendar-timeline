@@ -1,6 +1,6 @@
 {
   "name": "@ti-gecko/react-calendar-timeline",
-  "version": "0.30.4",
+  "version": "0.31.0",
   "description": "react calendar timeline",
   "main": "lib/index.js",
   "scripts": {
