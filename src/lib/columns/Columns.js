@@ -8,7 +8,9 @@ import {
   getHours,
   getMinutes,
   getSeconds,
-  getMilliseconds, getTime, getUnixTime
+  getMilliseconds,
+  getTime,
+  getUnixTime
 } from 'date-fns'
 
 import { iterateTimes } from '../utility/calendar'
@@ -32,7 +34,7 @@ const getMap = {
   hour: getHours,
   minute: getMinutes,
   second: getSeconds,
-  millisecond: getMilliseconds,
+  millisecond: getMilliseconds
 }
 
 class Columns extends Component {

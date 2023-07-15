@@ -41,7 +41,7 @@ class CustomMarker extends React.Component {
 }
 
 // TODO: turn into HOC?
-const CustomMarkerWrapper = props => {
+const CustomMarkerWrapper = (props) => {
   return (
     <TimelineMarkersConsumer>
       {({ subscribeMarker, updateMarker }) => (

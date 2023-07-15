@@ -42,7 +42,7 @@ export class TimelineStateProvider extends React.Component {
     canvasWidth: PropTypes.number.isRequired,
     showPeriod: PropTypes.func.isRequired,
     timelineUnit: PropTypes.string.isRequired,
-    timelineWidth: PropTypes.number.isRequired,
+    timelineWidth: PropTypes.number.isRequired
   }
 
   constructor(props) {
@@ -53,7 +53,7 @@ export class TimelineStateProvider extends React.Component {
         getTimelineState: this.getTimelineState,
         getLeftOffsetFromDate: this.getLeftOffsetFromDate,
         getDateFromLeftOffsetPosition: this.getDateFromLeftOffsetPosition,
-        showPeriod: this.props.showPeriod,
+        showPeriod: this.props.showPeriod
       }
     }
   }
@@ -66,7 +66,7 @@ export class TimelineStateProvider extends React.Component {
       canvasTimeEnd,
       canvasWidth,
       timelineUnit,
-      timelineWidth,
+      timelineWidth
     } = this.props
     return {
       visibleTimeStart,
@@ -75,11 +75,11 @@ export class TimelineStateProvider extends React.Component {
       canvasTimeEnd,
       canvasWidth,
       timelineUnit,
-      timelineWidth,
+      timelineWidth
     } // REVIEW,
   }
 
-  getLeftOffsetFromDate = date => {
+  getLeftOffsetFromDate = (date) => {
     const { canvasTimeStart, canvasTimeEnd, canvasWidth } = this.props
     return calculateXPositionForTime(
       canvasTimeStart,
@@ -89,7 +89,7 @@ export class TimelineStateProvider extends React.Component {
     )
   }
 
-  getDateFromLeftOffsetPosition = leftOffset => {
+  getDateFromLeftOffsetPosition = (leftOffset) => {
     const { canvasTimeStart, canvasTimeEnd, canvasWidth } = this.props
     return calculateTimeForXPosition(
       canvasTimeStart,

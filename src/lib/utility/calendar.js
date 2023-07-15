@@ -8,7 +8,6 @@ import {
   startOfHour,
   startOfMinute,
   startOfSecond,
-
   endOfYear,
   endOfQuarter,
   endOfMonth,
@@ -18,7 +17,6 @@ import {
   endOfHour,
   endOfMinute,
   endOfSecond,
-
   addYears,
   addQuarters,
   addMonths,
@@ -28,14 +26,21 @@ import {
   addMinutes,
   addSeconds,
   addMilliseconds,
-
-  getYear, setYear,
-  getMonth, setMonth,
-  getDate, setDate,
-  getHours, setHours,
-  getMinutes, setMinutes,
-  getSeconds, setSeconds,
-  getMilliseconds, setMilliseconds, getTime
+  getYear,
+  setYear,
+  getMonth,
+  setMonth,
+  getDate,
+  setDate,
+  getHours,
+  setHours,
+  getMinutes,
+  setMinutes,
+  getSeconds,
+  setSeconds,
+  getMilliseconds,
+  setMilliseconds,
+  getTime
 } from 'date-fns'
 import { _get } from './generic'
 
@@ -49,7 +54,7 @@ const startOfMap = {
   date: startOfDay,
   hour: startOfHour,
   minute: startOfMinute,
-  second: startOfSecond,
+  second: startOfSecond
 }
 
 const endOfMap = {
@@ -62,7 +67,7 @@ const endOfMap = {
   date: endOfDay,
   hour: endOfHour,
   minute: endOfMinute,
-  second: endOfSecond,
+  second: endOfSecond
 }
 
 const addMap = {
@@ -74,7 +79,7 @@ const addMap = {
   hour: addHours,
   minute: addMinutes,
   second: addSeconds,
-  millisecond: addMilliseconds,
+  millisecond: addMilliseconds
 }
 
 const getMap = {
@@ -84,7 +89,7 @@ const getMap = {
   hour: getHours,
   minute: getMinutes,
   second: getSeconds,
-  millisecond: getMilliseconds,
+  millisecond: getMilliseconds
 }
 
 const setMap = {
@@ -94,7 +99,7 @@ const setMap = {
   hour: setHours,
   minute: setMinutes,
   second: setSeconds,
-  millisecond: setMilliseconds,
+  millisecond: setMilliseconds
 }
 
 /**
@@ -160,7 +165,7 @@ export function iterateTimes(start, end, unit, timeSteps, callback) {
 
   if (timeSteps[unit] && timeSteps[unit] > 1) {
     let value = getMap[unit](time)
-    setMap[unit](time, value - value % timeSteps[unit])
+    setMap[unit](time, value - (value % timeSteps[unit]))
   }
 
   while (getTime(time) < end) {
@@ -206,7 +211,7 @@ export function getMinUnit(zoom, width, timeSteps) {
   // this timespan is in ms initially
   let nextTimeSpanInUnitContext = zoom
 
-  Object.keys(timeDividers).some(unit => {
+  Object.keys(timeDividers).some((unit) => {
     // converts previous time span to current unit
     // (e.g. milliseconds to seconds, seconds to minutes, etc)
     nextTimeSpanInUnitContext = nextTimeSpanInUnitContext / timeDividers[unit]
@@ -373,7 +378,7 @@ export function getGroupedItems(items, groupOrders) {
 export function getVisibleItems(items, canvasTimeStart, canvasTimeEnd, keys) {
   const { itemTimeStartKey, itemTimeEndKey } = keys
 
-  return items.filter(item => {
+  return items.filter((item) => {
     return (
       _get(item, itemTimeStartKey) <= canvasTimeEnd &&
       _get(item, itemTimeEndKey) >= canvasTimeStart
@@ -435,7 +440,10 @@ export function groupStack(
         item.dimensions.top = collidingItem.dimensions.top + lineHeight
         curHeight = Math.max(
           curHeight,
-          item.dimensions.top + item.dimensions.height + verticalMargin - groupTop
+          item.dimensions.top +
+            item.dimensions.height +
+            verticalMargin -
+            groupTop
         )
       }
     } while (collidingItem)
@@ -445,7 +453,6 @@ export function groupStack(
     verticalMargin,
     itemTop: item.dimensions.top
   }
-
 }
 
 // Calculate the position of this item for a group that is not being stacked
@@ -513,7 +520,12 @@ export function stackAll(itemsDimensions, groupOrders, lineHeight, stackItems) {
  * @param {*} lineHeight
  * @param {*} groupTop
  */
-export function stackGroup(itemsDimensions, isGroupStacked, lineHeight, groupTop) {
+export function stackGroup(
+  itemsDimensions,
+  isGroupStacked,
+  lineHeight,
+  groupTop
+) {
   var groupHeight = 0
   var verticalMargin = 0
   // Find positions for each item in group
@@ -529,7 +541,12 @@ export function stackGroup(itemsDimensions, isGroupStacked, lineHeight, groupTop
         itemIndex
       )
     } else {
-      r = groupNoStack(lineHeight, itemsDimensions[itemIndex], groupHeight, groupTop)
+      r = groupNoStack(
+        lineHeight,
+        itemsDimensions[itemIndex],
+        groupHeight,
+        groupTop
+      )
     }
     groupHeight = r.groupHeight
     verticalMargin = r.verticalMargin
@@ -579,7 +596,7 @@ export function stackTimelineItems(
     canvasTimeEnd,
     keys
   )
-  const visibleItemsWithInteraction = visibleItems.map(item =>
+  const visibleItemsWithInteraction = visibleItems.map((item) =>
     getItemWithInteractions({
       item,
       keys,
@@ -606,7 +623,7 @@ export function stackTimelineItems(
   // Get the order of groups based on their id key
   const groupOrders = getGroupOrders(groups, keys)
   let dimensionItems = visibleItemsWithInteraction
-    .map(item =>
+    .map((item) =>
       getItemDimensions({
         item,
         keys,
@@ -618,7 +635,7 @@ export function stackTimelineItems(
         itemHeightRatio
       })
     )
-    .filter(item => !!item)
+    .filter((item) => !!item)
   // Get a new array of groupOrders holding the stacked items
   const { height, groupHeights, groupTops } = stackAll(
     dimensionItems,
@@ -735,11 +752,11 @@ export function getItemWithInteractions({
 export function getCanvasBoundariesFromVisibleTime(
   visibleTimeStart,
   visibleTimeEnd,
-  buffer,
+  buffer
 ) {
   const zoom = visibleTimeEnd - visibleTimeStart
   // buffer - 1 (1 is visible area) divided by 2 (2 is the buffer split on the right and left of the timeline)
-  const canvasTimeStart = visibleTimeStart - (zoom * (buffer - 1 )/2)
+  const canvasTimeStart = visibleTimeStart - (zoom * (buffer - 1)) / 2
   const canvasTimeEnd = canvasTimeStart + zoom * buffer
   return [canvasTimeStart, canvasTimeEnd]
 }
@@ -765,7 +782,7 @@ export function calculateScrollCanvas(
   props,
   state
 ) {
-  const buffer = props.buffer;
+  const buffer = props.buffer
   const oldCanvasTimeStart = state.canvasTimeStart
   const oldCanvasTimeEnd = state.canvasTimeEnd
   const oldZoom = state.visibleTimeEnd - state.visibleTimeStart
@@ -821,9 +838,9 @@ export function calculateScrollCanvas(
 }
 
 export function startOf(date, unit) {
-  return startOfMap[unit](date);
+  return startOfMap[unit](date)
 }
 
 export function endOf(date, unit) {
-  return endOfMap[unit](date);
+  return endOfMap[unit](date)
 }

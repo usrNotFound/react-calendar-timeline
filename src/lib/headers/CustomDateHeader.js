@@ -1,6 +1,7 @@
 import React from 'react'
 import Interval from './Interval'
 import { getTime } from 'date-fns'
+import PropTypes from 'prop-types'
 export function CustomDateHeader({
   headerContext: { intervals, unit },
   getRootProps,
@@ -21,7 +22,7 @@ export function CustomDateHeader({
       className={className}
       {...getRootProps({ style })}
     >
-      {intervals.map(interval => {
+      {intervals.map((interval) => {
         const intervalText = getLabelFormat(
           [interval.startTime, interval.endTime],
           unit,
@@ -43,4 +44,23 @@ export function CustomDateHeader({
       })}
     </div>
   )
+}
+
+CustomDateHeader.propTypes = {
+  headerContext: PropTypes.shape({
+    intervals: PropTypes.shape({startTime: PropTypes.number, endTime: PropTypes.number}).isRequired,
+    unit: PropTypes.string.isRequired
+  }).isRequired,
+  getRootProps: PropTypes.func.isRequired,
+  getIntervalProps: PropTypes.func.isRequired,
+  showPeriod: PropTypes.func.isRequired,
+  data: {
+    style: PropTypes.object,
+    intervalRenderer: PropTypes.func,
+    className: PropTypes.string,
+    getLabelFormat: PropTypes.func.isRequired,
+    unitProp: PropTypes.string,
+    headerData: PropTypes.object
+  }
+
 }

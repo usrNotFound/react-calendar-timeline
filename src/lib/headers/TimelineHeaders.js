@@ -20,7 +20,7 @@ class TimelineHeaders extends React.Component {
   static defaultProps = {
     style: {},
     calendarHeaderStyle: {},
-    calendarHeaderClassName: "",
+    calendarHeaderClassName: ''
   }
 
   constructor(props) {
@@ -36,11 +36,8 @@ class TimelineHeaders extends React.Component {
   }
 
   getCalendarHeaderStyle = () => {
-    const {
-      leftSidebarWidth,
-      rightSidebarWidth,
-      calendarHeaderStyle
-    } = this.props
+    const { leftSidebarWidth, rightSidebarWidth, calendarHeaderStyle } =
+      this.props
     return {
       ...calendarHeaderStyle,
       overflow: 'hidden',
@@ -48,7 +45,7 @@ class TimelineHeaders extends React.Component {
     }
   }
 
-  handleRootRef = element => {
+  handleRootRef = (element) => {
     if (this.props.headerRef) {
       this.props.headerRef(element)
     }
@@ -59,8 +56,8 @@ class TimelineHeaders extends React.Component {
    * refer to for explanation https://github.com/gaearon/react-hot-loader#checking-element-types
    */
   isSidebarHeader = (child) => {
-    if(child.type === undefined) return false
-    return child.type.secretKey ===SidebarHeader.secretKey
+    if (child.type === undefined) return false
+    return child.type.secretKey === SidebarHeader.secretKey
   }
 
   render() {
@@ -68,9 +65,9 @@ class TimelineHeaders extends React.Component {
     let leftSidebarHeader
     let calendarHeaders = []
     const children = Array.isArray(this.props.children)
-      ? this.props.children.filter(c => c)
+      ? this.props.children.filter((c) => c)
       : [this.props.children]
-    React.Children.map(children, child => {
+    React.Children.map(children, (child) => {
       if (this.isSidebarHeader(child)) {
         if (child.props.variant === RIGHT_VARIANT) {
           rightSidebarHeader = child
@@ -146,6 +143,6 @@ TimelineHeadersWrapper.propTypes = {
   calendarHeaderClassName: PropTypes.string
 }
 
-TimelineHeadersWrapper.secretKey = "TimelineHeaders"
+TimelineHeadersWrapper.secretKey = 'TimelineHeaders'
 
 export default TimelineHeadersWrapper

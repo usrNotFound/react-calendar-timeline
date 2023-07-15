@@ -30,19 +30,16 @@ class ScrollElement extends Component {
     this.props.onScroll(scrollX)
   }
 
-  refHandler = el => {
+  refHandler = (el) => {
     this.scrollComponent = el
     this.props.scrollRef(el)
-    if(el){
-      el.addEventListener('wheel', this.handleWheel, {passive: false});
+    if (el) {
+      el.addEventListener('wheel', this.handleWheel, { passive: false })
     }
   }
-  
 
-  handleWheel = e => {
+  handleWheel = (e) => {
     const { traditionalZoom } = this.props
-
-    
 
     // zoom in the time dimension
     if (e.ctrlKey || e.metaKey || e.altKey) {
@@ -57,12 +54,14 @@ class ScrollElement extends Component {
     } else if (e.shiftKey) {
       e.preventDefault()
       // shift+scroll event from a touchpad has deltaY property populated; shift+scroll event from a mouse has deltaX
-      this.props.onScroll(this.scrollComponent.scrollLeft + (e.deltaY || e.deltaX))
+      this.props.onScroll(
+        this.scrollComponent.scrollLeft + (e.deltaY || e.deltaX)
+      )
       // no modifier pressed? we prevented the default event, so scroll or zoom as needed
     }
   }
 
-  handleMouseDown = e => {
+  handleMouseDown = (e) => {
     if (e.button === 0) {
       this.dragStartPosition = e.pageX
       this.dragLastPosition = e.pageX
@@ -72,11 +71,13 @@ class ScrollElement extends Component {
     }
   }
 
-  handleMouseMove = e => {
+  handleMouseMove = (e) => {
     // this.props.onMouseMove(e)
     //why is interacting with item important?
     if (this.state.isDragging && !this.props.isInteractingWithItem) {
-      this.props.onScroll(this.scrollComponent.scrollLeft + this.dragLastPosition - e.pageX)
+      this.props.onScroll(
+        this.scrollComponent.scrollLeft + this.dragLastPosition - e.pageX
+      )
       this.dragLastPosition = e.pageX
     }
   }
@@ -99,7 +100,7 @@ class ScrollElement extends Component {
     })
   }
 
-  handleTouchStart = e => {
+  handleTouchStart = (e) => {
     if (e.touches.length === 2) {
       e.preventDefault()
 
@@ -120,7 +121,7 @@ class ScrollElement extends Component {
     }
   }
 
-  handleTouchMove = e => {
+  handleTouchMove = (e) => {
     const { isInteractingWithItem, width, onZoom } = this.props
     if (isInteractingWithItem) {
       e.preventDefault()
@@ -168,9 +169,9 @@ class ScrollElement extends Component {
     }
   }
 
-  componentWillUnmount(){
-    if(this.scrollComponent){
-      this.scrollComponent.removeEventListener('wheel', this.handleWheel);
+  componentWillUnmount() {
+    if (this.scrollComponent) {
+      this.scrollComponent.removeEventListener('wheel', this.handleWheel)
     }
   }
 
@@ -202,7 +203,6 @@ class ScrollElement extends Component {
       >
         {children}
       </div>
-
     )
   }
 }

@@ -26,7 +26,7 @@ export function deepObjectCompare(obj1, obj2) {
 export function keyBy(value, key) {
   let obj = {}
 
-  value.forEach(function(element) {
+  value.forEach(function (element) {
     obj[element[key]] = element
   })
 

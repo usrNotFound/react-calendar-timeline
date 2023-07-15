@@ -12,7 +12,7 @@ export default class GroupRows extends Component {
     clickTolerance: PropTypes.number.isRequired,
     groups: PropTypes.array.isRequired,
     horizontalLineClassNamesForGroup: PropTypes.func,
-    onRowContextClick: PropTypes.func.isRequired,
+    onRowContextClick: PropTypes.func.isRequired
   }
 
   shouldComponentUpdate(nextProps) {
@@ -34,7 +34,7 @@ export default class GroupRows extends Component {
       clickTolerance,
       groups,
       horizontalLineClassNamesForGroup,
-      onRowContextClick,
+      onRowContextClick
     } = this.props
     let lines = []
 
@@ -42,9 +42,9 @@ export default class GroupRows extends Component {
       lines.push(
         <GroupRow
           clickTolerance={clickTolerance}
-          onContextMenu={evt => onRowContextClick(evt, i)}
-          onClick={evt => onRowClick(evt, i)}
-          onDoubleClick={evt => onRowDoubleClick(evt, i)}
+          onContextMenu={(evt) => onRowContextClick(evt, i)}
+          onClick={(evt) => onRowClick(evt, i)}
+          onDoubleClick={(evt) => onRowDoubleClick(evt, i)}
           key={`horizontal-line-${i}`}
           isEvenRow={i % 2 === 0}
           group={groups[i]}

@@ -77,7 +77,7 @@ export default class Items extends Component {
       nextProps.canChangeGroup === this.props.canChangeGroup &&
       nextProps.canMove === this.props.canMove &&
       nextProps.canResize === this.props.canResize &&
-      nextProps.canSelect === this.props.canSelect     
+      nextProps.canSelect === this.props.canSelect
     )
   }
 
@@ -97,13 +97,8 @@ export default class Items extends Component {
   }
 
   render() {
-    const {
-      canvasTimeStart,
-      canvasTimeEnd,
-      dimensionItems,
-      keys,
-      groups
-    } = this.props
+    const { canvasTimeStart, canvasTimeEnd, dimensionItems, keys, groups } =
+      this.props
     const { itemIdKey, itemGroupKey } = keys
 
     const groupOrders = getGroupOrders(groups, keys)
@@ -117,8 +112,8 @@ export default class Items extends Component {
     return (
       <div className="rct-items">
         {visibleItems
-          .filter(item => sortedDimensionItems[_get(item, itemIdKey)])
-          .map(item => (
+          .filter((item) => sortedDimensionItems[_get(item, itemIdKey)])
+          .map((item) => (
             <Item
               key={_get(item, itemIdKey)}
               item={item}

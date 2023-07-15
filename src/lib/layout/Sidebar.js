@@ -11,7 +11,7 @@ export default class Sidebar extends Component {
     groupHeights: PropTypes.array.isRequired,
     keys: PropTypes.object.isRequired,
     groupRenderer: PropTypes.func,
-    isRightSidebar: PropTypes.bool,
+    isRightSidebar: PropTypes.bool
   }
 
   shouldComponentUpdate(nextProps) {
@@ -60,7 +60,8 @@ export default class Sidebar extends Component {
           data-testid="sidebar"
           key={_get(group, groupIdKey)}
           className={
-            'rct-sidebar-row rct-sidebar-row-' + (index % 2 === 0 ? 'even' : 'odd')
+            'rct-sidebar-row rct-sidebar-row-' +
+            (index % 2 === 0 ? 'even' : 'odd')
           }
           style={elementStyle}
         >

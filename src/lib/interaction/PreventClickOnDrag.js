@@ -8,17 +8,17 @@ class PreventClickOnDrag extends Component {
     clickTolerance: PropTypes.number.isRequired
   }
 
-  handleMouseDown = evt => {
+  handleMouseDown = (evt) => {
     this.originClickX = evt.clientX
   }
 
-  handleMouseUp = evt => {
+  handleMouseUp = (evt) => {
     if (Math.abs(this.originClickX - evt.clientX) > this.props.clickTolerance) {
       this.cancelClick = true
     }
   }
 
-  handleClick = evt => {
+  handleClick = (evt) => {
     if (!this.cancelClick) {
       this.props.onClick(evt)
     }

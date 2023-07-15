@@ -17,12 +17,12 @@ const criticalStyles = {
 
 // FIXME: this creates a new object each time in render
 // might want to memoize this?
-export const createMarkerStylesWithLeftOffset = leftOffset => ({
+export const createMarkerStylesWithLeftOffset = (leftOffset) => ({
   ...criticalStyles,
   left: leftOffset
 })
 
-export const createDefaultRenderer = dataTestidValue => {
+export const createDefaultRenderer = (dataTestidValue) => {
   // eslint-disable-next-line
   return function DefaultMarkerRenderer({ styles }) {
     return <div style={styles} data-testid={dataTestidValue} />

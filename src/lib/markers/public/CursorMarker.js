@@ -29,7 +29,7 @@ class CursorMarker extends React.Component {
 }
 
 // TODO: turn into HOC?
-const CursorMarkerWrapper = props => {
+const CursorMarkerWrapper = (props) => {
   return (
     <TimelineMarkersConsumer>
       {({ subscribeMarker }) => (

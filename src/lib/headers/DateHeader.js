@@ -36,7 +36,7 @@ class DateHeader extends React.Component {
     return this.props.timelineUnit
   }
 
-  getRootStyle = memoize(style => {
+  getRootStyle = memoize((style) => {
     return {
       height: 30,
       ...style
@@ -47,7 +47,7 @@ class DateHeader extends React.Component {
     const { labelFormat } = this.props
     if (typeof labelFormat === 'string') {
       const startTime = interval[0]
-      return _format(startTime, labelFormat, {locale: this.context.locale})
+      return _format(startTime, labelFormat, { locale: this.context.locale })
     } else if (typeof labelFormat === 'function') {
       return labelFormat(interval, unit, labelWidth, this.context)
     } else {
@@ -97,14 +97,14 @@ class DateHeader extends React.Component {
 }
 
 const DateHeaderWrapper = ({
-                             unit,
-                             labelFormat,
-                             style,
-                             className,
-                             intervalRenderer,
-                             headerData,
-                             height
-                           }) => (
+  unit,
+  labelFormat,
+  style,
+  className,
+  intervalRenderer,
+  headerData,
+  height
+}) => (
   <TimelineStateConsumer>
     {({ getTimelineState }) => {
       const timelineState = getTimelineState()
@@ -159,7 +159,7 @@ function formatLabel(
   } else {
     format = formatOptions[unit]['short']
   }
-  return _format(timeStart, format, {locale: dateContext.locale})
+  return _format(timeStart, format, { locale: dateContext.locale })
 }
 
 export default DateHeaderWrapper

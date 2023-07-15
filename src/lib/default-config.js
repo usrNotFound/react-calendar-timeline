@@ -55,12 +55,12 @@ export const defaultHeaderFormats = {
     long: 'HH:mm',
     mediumLong: 'HH:mm',
     medium: 'HH:mm',
-    short: 'mm',
+    short: 'mm'
   },
   second: {
-    "long": 'mm:ss',
+    long: 'mm:ss',
     mediumLong: 'mm:ss',
     medium: 'mm:ss',
-    "short": 'ss'
+    short: 'ss'
   }
 }

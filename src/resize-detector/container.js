@@ -7,7 +7,7 @@ function addListener(component) {
 
   component._erdWidth = component.container.offsetWidth
 
-  component._erd.listenTo(component.container, element => {
+  component._erd.listenTo(component.container, (element) => {
     var width = element.offsetWidth
 
     if (component._erdWidth !== width) {
