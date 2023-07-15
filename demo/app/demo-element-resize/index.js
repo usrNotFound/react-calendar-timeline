@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline'
 import containerResizeDetector from '../../../src/resize-detector/container'
@@ -8,6 +7,7 @@ import containerResizeDetector from '../../../src/resize-detector/container'
 // import containerResizeDetector from 'react-calendar-timeline/lib/resize-detector/container'
 
 import generateFakeData from '../generate-fake-data'
+import { add, startOfDay } from 'date-fns'
 
 var keys = {
   groupIdKey: 'id',
@@ -26,13 +26,8 @@ export default class App extends Component {
     super(props)
 
     const { groups, items } = generateFakeData(10, 200)
-    const defaultTimeStart = moment()
-      .startOf('day')
-      .toDate()
-    const defaultTimeEnd = moment()
-      .startOf('day')
-      .add(1, 'day')
-      .toDate()
+    const defaultTimeStart = startOfDay(new Date())
+    const defaultTimeEnd = add(startOfDay(new Date()), {days: 1})
     const width = 80
 
     this.state = {

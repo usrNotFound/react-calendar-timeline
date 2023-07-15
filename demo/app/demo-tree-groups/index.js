@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline'
 
 import generateFakeData from '../generate-fake-data'
+import { add, startOfDay } from 'date-fns'
 
 var keys = {
   groupIdKey: 'id',
@@ -23,13 +23,8 @@ export default class App extends Component {
     super(props)
 
     const { groups, items } = generateFakeData()
-    const defaultTimeStart = moment()
-      .startOf('day')
-      .toDate()
-    const defaultTimeEnd = moment()
-      .startOf('day')
-      .add(1, 'day')
-      .toDate()
+    const defaultTimeStart = startOfDay(new Date())
+    const defaultTimeEnd = add(startOfDay(new Date()), {days: 1})
 
     // convert every 2 groups out of 3 to nodes, leaving the first as the root
     const newGroups = groups.map(group => {
