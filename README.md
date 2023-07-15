@@ -939,7 +939,7 @@ by default we provide a responsive format for the dates based on the label width
     mediumLong: 'mm:ss',
     medium: 'mm:ss',
     "short": 'ss'
-  }  
+  }
 }
   ```
 
@@ -1007,7 +1007,7 @@ import Timeline, {
     <DateHeader />
     <DateHeader
       unit="day"
-      labelFormat="MM/DD"
+      labelFormat="MM/dd"
       style={{ height: 50 }}
       data={{someData: 'example'}}
       intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
