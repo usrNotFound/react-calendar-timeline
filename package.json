@@ -1,17 +1,17 @@
 {
   "name": "@ti-gecko/react-calendar-timeline",
-  "version": "0.30.4",
+  "version": "0.31.0",
   "description": "react calendar timeline",
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run build:lib",
     "build:demo": "echo '!!! Building Demo' && cross-env NODE_ENV=production webpack --progress",
-    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && node-sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && tsc && rm lib/lib/Timeline.js.bak",
+    "build:lib": "echo '!!! Building Library' && rimraf lib && cross-env NODE_ENV=production babel src --out-dir lib && sass src/lib/Timeline.scss lib/Timeline.css && sed -i'.bak' 's/Timeline\\.scss/Timeline\\.css/g' lib/lib/Timeline.js && tsc && rm lib/lib/Timeline.js.bak",
     "lint": "eslint --ext .js --ext .jsx ./src",
     "lint:fix": "prettier-eslint --parser babylon --write \"src/**/*.js\"",
     "prepublish": "npm run build:lib",
     "push": "npm publish --access public --scope @ti-gecko .",
-    "start": "webpack-dev-server --hot --host 0.0.0.0 --display-modules",
+    "start": "webpack-dev-server --hot --host 0.0.0.0",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -133,7 +133,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-react-remove-properties": "^0.3.0",
     "cross-env": "^7.0.3",
-    "css-loader": "~0.26.0",
+    "css-loader": "^6.7.1",
     "date-fns": "^2.23.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
@@ -147,9 +147,9 @@
     "faker": "^4.1.0",
     "interactjs": "^1.3.4",
     "jest": "^27.2.0",
+    "jest-dom": "^3.5.0",
     "jest-watch-typeahead": "^0.6.4",
     "jsdom": "^16.7.0",
-    "node-sass": "^7.0.0",
     "prettier": "^2.4.0",
     "prettier-eslint-cli": "^5.0.1",
     "prop-types": "^15.6.2",
@@ -159,11 +159,12 @@
     "react-router-dom": "^6.4.2",
     "regenerator-runtime": "^0.13.2",
     "rimraf": "^2.6.2",
-    "sass-loader": "^7.0.3",
-    "style-loader": "~0.13.0",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.0.0",
+    "style-loader": "^3.3.1",
     "typescript": "^4.4.3",
-    "webpack": "^4.16.3",
-    "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack": "^5.72.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.9.0"
   }
 }

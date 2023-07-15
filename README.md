@@ -1,3 +1,6 @@
+# ⚠️⚠️⚠️⚠️ HELP WANTED
+please email me [ahmad.ilaiwi@gmail.com](mailto:ahmad.ilaiwi@gmail.com) and we will setup some time to speak and see if you can help maintain this library.
+
 # React Calendar Timeline
 
 A modern and responsive React timeline component.
@@ -146,6 +149,14 @@ The exact viewport of the calendar. When these are specified, scrolling in the c
 
 **Note that you need to provide either `defaultTimeStart/End` or `visibleTimeStart/End` for the timeline to function**
 
+## buffer
+
+a number (default to 3) which represents the extra timeline rendered on right and lift of the visible area which the user will scroll through before the time rerenders.
+
+more explication in section [behind the scenes](#behind-the-scenes)
+
+Note: setting buffer to 1 will disable the scrolling on the timeline
+
 ## selected
 
 An array with id's corresponding to id's in items (`item.id`). If this prop is set you have to manage the selected items yourself within the `onItemSelect` handler to update the property with new id's and use `onItemDeselect` handler to clear selection. This overwrites the default behaviour of selecting one item on click.
@@ -208,6 +219,7 @@ What percentage of the height of the line is taken by the item? Default `0.65`
 
 Smallest time the calendar can zoom to in milliseconds. Default `60 * 60 * 1000` (1 hour)
 
+__notes__: please note than second won't show up unless you change this to `60 * 1000`
 ## maxZoom
 
 Largest time the calendar can zoom to in milliseconds. Default `5 * 365.24 * 86400 * 1000` (5 years)
@@ -318,7 +330,7 @@ Called when an empty spot on the canvas was double clicked. Get the group ID and
 
 Called when the canvas is clicked by the right button of the mouse. Note: If this property is set the default context menu doesn't appear
 
-## onZoom(timelineContext)
+## onZoom(timelineContext, unit)
 
 Called when the timeline is zoomed, either via mouse/pinch zoom or clicking header to change timeline units
 
@@ -348,7 +360,7 @@ function (action, item, time, resizeEdge) {
 ```
 
 
-## onTimeChange(visibleTimeStart, visibleTimeEnd, updateScrollCanvas)
+## onTimeChange(visibleTimeStart, visibleTimeEnd, updateScrollCanvas, unit)
 
 A function that's called when the user tries to scroll. Call the passed `updateScrollCanvas(start, end)` with the updated visibleTimeStart and visibleTimeEnd (as unix timestamps in milliseconds) to change the scroll behavior, for example to limit scrolling.
 
@@ -921,6 +933,12 @@ by default we provide a responsive format for the dates based on the label width
     mediumLong: 'HH:mm',
     medium: 'HH:mm',
     short: 'mm',
+  },
+  second: {
+    "long": 'mm:ss',
+    mediumLong: 'mm:ss',
+    medium: 'mm:ss',
+    "short": 'ss'
   }
 }
   ```
@@ -989,7 +1007,7 @@ import Timeline, {
     <DateHeader />
     <DateHeader
       unit="day"
-      labelFormat="MM/DD"
+      labelFormat="MM/dd"
       style={{ height: 50 }}
       data={{someData: 'example'}}
       intervalRenderer={({ getIntervalProps, intervalContext, data }) => {
@@ -1242,6 +1260,8 @@ This results in a visually endless scrolling canvas with optimal performance.
 
 Extensibility and usability: While some parameters (`onTimeChange`, `moveResizeValidator`) might be hard to configure, these are design decisions to make it as extensible as possible. If you have recipes for common tasks regarding those parameters, send a PR to add them to this doc.
 
+Note: 3x can be controlled by changing the buffer
+
 ## Interaction
 
 To interact and navigate within the timeline there are the following options for the user:
@@ -1269,7 +1289,7 @@ $ yarn start
 
 Check http://0.0.0.0:8888/ in your browser and have fun!
 
-Please run `npm run lint` before you send a pull request. `npm run jest` runs the tests.
+Please run `npm run lint` before you send a pull request. `npm run test` runs the jest tests.
 
 <!--
 

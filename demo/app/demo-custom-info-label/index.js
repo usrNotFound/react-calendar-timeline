@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline'
 import CustomInfoLabel from './CustomInfoLabel'
 
 import generateFakeData from '../generate-fake-data'
+import { add, format, startOfDay } from 'date-fns'
 
 var keys = {
   groupIdKey: 'id',
@@ -24,13 +24,8 @@ export default class App extends Component {
     super(props)
 
     const { groups, items } = generateFakeData(5, 20)
-    const defaultTimeStart = moment()
-      .startOf('day')
-      .toDate()
-    const defaultTimeEnd = moment()
-      .startOf('day')
-      .add(1, 'day')
-      .toDate()
+    const defaultTimeStart = startOfDay(new Date())
+    const defaultTimeEnd = add(startOfDay(new Date()), {days: 1})
 
     this.state = {
       groups,
@@ -86,7 +81,7 @@ export default class App extends Component {
   handleItemDrag = ({ eventType, itemId, time, edge, newGroupOrder }) => {
     const group = this.state.groups[newGroupOrder]
     const infoLabelGroupTitle = group ? group.title : ''
-    const infoLabelTime = moment(time).format('dddd, MMMM Do YYYY')
+    const infoLabelTime = format(time, 'EEEE, MMMM Do yyyy')
     let heading = ''
     switch (eventType) {
       case 'move':

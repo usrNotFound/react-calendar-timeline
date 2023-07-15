@@ -1,17 +1,13 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline'
 
 import generateFakeData from '../generate-fake-data'
+import { add, endOfMonth, formatISO, startOfMonth } from 'date-fns'
 
-var minTime = moment()
-  .add(-6, 'months')
-  .valueOf()
-var maxTime = moment()
-  .add(6, 'months')
-  .valueOf()
+var minTime = add(new Date(), {months: -6}).valueOf()
+var maxTime = add(new Date(), {months: 6}).valueOf()
 
 var keys = {
   groupIdKey: 'id',
@@ -37,12 +33,8 @@ export default class App extends Component {
     super(props)
 
     const { groups, items } = generateFakeData(100, 5000)
-    const visibleTimeStart = moment()
-      .startOf('month')
-      .toDate().valueOf()
-    const visibleTimeEnd = moment()
-      .endOf('month')
-      .toDate().valueOf()
+    const visibleTimeStart = startOfMonth(new Date()).valueOf()
+    const visibleTimeEnd = endOfMonth(new Date()).valueOf()
 
     this.state = {
       groups,
@@ -53,27 +45,27 @@ export default class App extends Component {
   }
 
   handleCanvasClick = (groupId, time) => {
-    console.log('Canvas clicked', groupId, moment(time).format())
+    console.log('Canvas clicked', groupId, formatISO(time))
   }
 
   handleCanvasContextMenu = (group, time) => {
-    console.log('Canvas context menu', group, moment(time).format())
+    console.log('Canvas context menu', group, formatISO(time))
   }
 
   handleItemClick = (itemId, _, time) => {
-    console.log('Clicked: ' + itemId, moment(time).format())
+    console.log('Clicked: ' + itemId, formatISO(time))
   }
 
   handleItemSelect = (itemId, _, time) => {
-    console.log('Selected: ' + itemId, moment(time).format())
+    console.log('Selected: ' + itemId, formatISO(time))
   }
 
   handleItemDoubleClick = (itemId, _, time) => {
-    console.log('Double Click: ' + itemId, moment(time).format())
+    console.log('Double Click: ' + itemId, formatISO(time))
   }
 
   handleItemContextMenu = (itemId, _, time) => {
-    console.log('Context Menu: ' + itemId, moment(time).format())
+    console.log('Context Menu: ' + itemId, formatISO(time))
   }
 
   handleItemMove = (itemId, dragTime, newGroupOrder) => {

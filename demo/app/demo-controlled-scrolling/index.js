@@ -1,13 +1,22 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react'
 
-import Timeline from 'react-calendar-timeline'
+import Timeline, {
+  TimelineMarkers,
+  TimelineHeaders,
+  TodayMarker,
+  CustomMarker,
+  CursorMarker,
+  CustomHeader,
+  SidebarHeader,
+  DateHeader
+} from 'react-calendar-timeline'
 
 import generateFakeData from '../generate-fake-data'
-import { add, endOfMonth, formatISO, startOfMonth } from 'date-fns'
+import { add, formatISO, startOfDay } from 'date-fns'
 
-var minTime = add(new Date(), {months: -6}).valueOf()
-var maxTime = add(new Date(), {months: 6}).valueOf()
+var minTime = add(new Date(),{ months: -6 }).valueOf()
+var maxTime = add(new Date(),{ months: 6 }).valueOf()
 
 var keys = {
   groupIdKey: 'id',
@@ -25,22 +34,24 @@ export default class App extends Component {
   constructor(props) {
     super(props)
 
-    const { groups, items } = generateFakeData(100, 10000)
-    const defaultTimeStart = startOfMonth(new Date())
-    const defaultTimeEnd = endOfMonth(new Date())
+    const { groups, items } = generateFakeData()
+    const visibleTimeStart = startOfDay(new Date()).valueOf()
+    const visibleTimeEnd = add(startOfDay(new Date()), {days: 1}).valueOf()
 
-    groups[0].stackItems = false;
-    groups[0].height = 300;
     this.state = {
       groups,
       items,
-      defaultTimeStart,
-      defaultTimeEnd
+      visibleTimeStart,
+      visibleTimeEnd
     }
   }
 
   handleCanvasClick = (groupId, time) => {
     console.log('Canvas clicked', groupId, formatISO(time))
+  }
+
+  handleCanvasDoubleClick = (groupId, time) => {
+    console.log('Canvas double clicked', groupId, formatISO(time))
   }
 
   handleCanvasContextMenu = (group, time) => {
@@ -125,36 +136,43 @@ export default class App extends Component {
     return time
   }
 
-  // itemRenderer = ({ item }) => {
-  //   return (
-  //     <div className='custom-item'>
-  //       <span className='title'>{item.title}</span>
-  //       <p className='tip'>{item.itemProps['data-tip']}</p>
-  //     </div>
-  //   )
-  // }
+  onPrevClick = () => {
+    this.setState(state => {
+      const zoom = state.visibleTimeEnd - state.visibleTimeStart;
+      return({
+      visibleTimeStart: state.visibleTimeStart - zoom,
+      visibleTimeEnd: state.visibleTimeEnd - zoom
+      })
+    });
+  };
 
-  // groupRenderer = ({ group }) => {
-  //   return (
-  //     <div className='custom-group'>
-  //       {group.title}
-  //     </div>
-  //   )
-  // }
+  onNextClick = () => {
+    this.setState(state => {
+      const zoom = state.visibleTimeEnd - state.visibleTimeStart;
+      console.log(({
+        visibleTimeStart: state.visibleTimeStart + zoom,
+        visibleTimeEnd: state.visibleTimeEnd + zoom
+      }));
+        return ({
+        visibleTimeStart: state.visibleTimeStart + zoom,
+        visibleTimeEnd: state.visibleTimeEnd + zoom
+      })
+    });
+  };
 
   render() {
-    const { groups, items, defaultTimeStart, defaultTimeEnd } = this.state
+    const { groups, items, visibleTimeStart, visibleTimeEnd } = this.state
 
     return (
+      <div>
+        <button onClick={this.onPrevClick}>{"< Prev"}</button>
+        <button onClick={this.onNextClick}>{"Next >"}</button>
       <Timeline
         groups={groups}
         items={items}
         keys={keys}
         sidebarWidth={150}
         sidebarContent={<div>Above The Left</div>}
-        // rightSidebarWidth={150}
-        // rightSidebarContent={<div>Above The Right</div>}
-
         canMove
         canResize="right"
         canSelect
@@ -162,14 +180,10 @@ export default class App extends Component {
         itemTouchSendsClick={false}
         stackItems
         itemHeightRatio={0.75}
-        // resizeDetector={containerResizeDetector}
-
-        defaultTimeStart={defaultTimeStart}
-        defaultTimeEnd={defaultTimeEnd}
-        // itemRenderer={this.itemRenderer}
-        // groupRenderer={this.groupRenderer}
-
+        visibleTimeStart={visibleTimeStart}
+        visibleTimeEnd={visibleTimeEnd}
         onCanvasClick={this.handleCanvasClick}
+        onCanvasDoubleClick={this.handleCanvasDoubleClick}
         onCanvasContextMenu={this.handleCanvasContextMenu}
         onItemClick={this.handleItemClick}
         onItemSelect={this.handleItemSelect}
@@ -177,9 +191,31 @@ export default class App extends Component {
         onItemMove={this.handleItemMove}
         onItemResize={this.handleItemResize}
         onItemDoubleClick={this.handleItemDoubleClick}
+        buffer={1}
         onTimeChange={this.handleTimeChange}
-        moveResizeValidator={this.moveResizeValidator}
-      />
+        // moveResizeValidator={this.moveResizeValidator}
+      >
+        <TimelineMarkers>
+          <TodayMarker />
+          <CustomMarker
+            date={
+              startOfDay(new Date())
+                .valueOf() +
+              1000 * 60 * 60 * 2
+            }
+          />
+          <CustomMarker
+            date={add(new Date(), {days: 3}).valueOf()}
+          >
+            {({ styles }) => {
+              const newStyles = { ...styles, backgroundColor: 'blue' }
+              return <div style={newStyles} />
+            }}
+          </CustomMarker>
+          <CursorMarker />
+        </TimelineMarkers>
+      </Timeline>
+      </div>
     )
   }
 }

@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 /* eslint-disable no-console */
 import React, { Component } from 'react'
-import moment from 'moment'
 
 import Timeline from 'react-calendar-timeline'
 // import containerResizeDetector from 'react-calendar-timeline/lib/resize-detector/container'
 
 import generateFakeData from '../generate-fake-data'
+import { add, startOfDay } from 'date-fns'
 
 var keys = {
   groupIdKey: 'id',
@@ -27,13 +27,8 @@ export default class App extends Component {
     const { groups: groups1, items: items1 } = generateFakeData(5, 400)
     const { groups: groups2, items: items2 } = generateFakeData(5, 400)
 
-    const visibleTimeStart = moment()
-      .startOf('day')
-      .valueOf()
-    const visibleTimeEnd = moment()
-      .startOf('day')
-      .add(1, 'day')
-      .valueOf()
+    const visibleTimeStart = startOfDay(new Date()).valueOf()
+    const visibleTimeEnd = add(startOfDay(new Date()), {days: 1}).valueOf()
 
     this.state = {
       groups1,

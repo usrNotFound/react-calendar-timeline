@@ -8,7 +8,7 @@ import {
   getHours,
   getMinutes,
   getSeconds,
-  getMilliseconds, getTime
+  getMilliseconds, getTime, getUnixTime
 } from 'date-fns'
 
 import { iterateTimes } from '../utility/calendar'
@@ -82,8 +82,8 @@ class Columns extends Component {
         let classNamesForTime = []
         if (verticalLineClassNamesForTime) {
           classNamesForTime = verticalLineClassNamesForTime(
-            time.unix() * 1000, // turn into ms, which is what verticalLineClassNamesForTime expects
-            nextTime.unix() * 1000 - 1
+            getUnixTime(time) * 1000, // turn into ms, which is what verticalLineClassNamesForTime expects
+            getUnixTime(nextTime) * 1000 - 1
           )
         }
 
@@ -93,7 +93,7 @@ class Columns extends Component {
           (firstOfType ? ' rct-vl-first' : '') +
           (minUnit === 'day' || minUnit === 'hour' || minUnit === 'minute'
             ? ` rct-day-${getDay(time)} `
-            : '') +
+            : ' ') +
           classNamesForTime.join(' ')
 
         const left = getLeftOffsetFromDate(getTime(time))
