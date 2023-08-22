@@ -1,5 +1,5 @@
 {
-  "name": "@ti-gecko/react-calendar-timeline",
+  "name": "@usrnotfound/react-calendar-timeline",
   "version": "0.31.1",
   "description": "react calendar timeline",
   "main": "lib/index.js",
@@ -10,7 +10,7 @@
     "lint": "eslint --ext .js --ext .jsx ./src",
     "lint:fix": "prettier-eslint --parser babel --write \"src/**/*.js\"",
     "prepublish": "npm run build:lib",
-    "push": "npm publish --access public --scope @ti-gecko .",
+    "push": "npm publish --access public --scope @usrnotfound .",
     "start": "webpack-dev-server --hot --host 0.0.0.0",
     "test": "jest",
     "test:watch": "jest --watch"
@@ -19,12 +19,11 @@
     "lib",
     "src"
   ],
-  "homepage": "https://github.com/ricard33/react-calendar-timeline",
+  "homepage": "https://github.com/usrNotFound/react-calendar-timeline",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ricard33/react-calendar-timeline.git"
+    "url": "https://github.com/usrNotFound/react-calendar-timeline.git"
   },
-  "author": "Cedric RICARD <ricard33@gmail.com>",
   "contributors": [
     {
       "name": "Marius Andra",
